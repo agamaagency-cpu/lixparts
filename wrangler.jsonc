@@ -1,0 +1,15 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "lixparts",
+  "compatibility_date": "2026-08-26",
+  // Сайт собирается статикой (next.config.mjs: output: "export") — в out/ лежат готовые HTML.
+  // Воркеру отдаём только ассеты: серверного кода нет, поэтому "main" не нужен.
+  "assets": {
+    "directory": "./out",
+    "html_handling": "auto-trailing-slash",
+    "not_found_handling": "404-page"
+  },
+  "observability": {
+    "enabled": true
+  }
+}

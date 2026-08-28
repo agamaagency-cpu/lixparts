@@ -14,3 +14,4 @@ start-dev.command
 .claude/
 push-to-github.command
 push2.command
+push-changes.command
