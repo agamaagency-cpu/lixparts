@@ -13,3 +13,4 @@ start-dev.command
 # локальные настройки Claude
 .claude/
 push-to-github.command
+push2.command
