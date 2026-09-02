@@ -5,6 +5,7 @@ import type {
   ModelSlug,
   Product,
 } from "./types";
+import generatedProducts from "./products.generated.json";
 
 /* ------------------------------------------------------------------ */
 /*  МОДЕЛИ                                                              */
@@ -275,7 +276,7 @@ function slugify(model: ModelSlug, category: string): string {
  * Товары генерируются из демо-списка по всем трём моделям.
  * Такой data-driven подход позволяет добавлять модели и категории без правок интерфейса.
  */
-export const products: Product[] = (() => {
+const demoProducts: Product[] = (() => {
   const list: Product[] = [];
   let i = 0;
   for (const model of models) {
@@ -315,6 +316,19 @@ export const products: Product[] = (() => {
   }
   return list;
 })();
+
+/**
+ * Реальный каталог приезжает из Google-таблицы «Склад LIXPARTS»:
+ * `npm run sync` тянет лист «Витрина» и переписывает lib/products.generated.json.
+ * Пока таблица пустая — сайт живёт на демо-товарах.
+ */
+const sheetProducts = generatedProducts as unknown as Product[];
+
+export const products: Product[] =
+  sheetProducts.length > 0 ? sheetProducts : demoProducts;
+
+/** true, если каталог собран из таблицы, а не из демо-данных. */
+export const catalogFromSheet = sheetProducts.length > 0;
 
 export function getProductsByModel(model: string): Product[] {
   return products.filter((p) => p.model === model);

@@ -46,4 +46,5 @@ export interface Product {
   paintReady?: boolean; // можно ставить без покраски при совпадении цвета
   description: string;
   featured?: boolean;
+  images?: string[]; // прямые ссылки на фото из таблицы склада
 }

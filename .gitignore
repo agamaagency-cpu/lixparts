@@ -15,3 +15,12 @@ start-dev.command
 push-to-github.command
 push2.command
 push-changes.command
+
+# ссылка на опубликованный CSV склада
+scripts/sheet-url.txt
+
+# рабочий файл склада
+*.xlsx
+
+# артефакт tsc
+tsconfig.tsbuildinfo
