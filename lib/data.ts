@@ -436,10 +436,10 @@ export const nosecutKits = [
 /* ------------------------------------------------------------------ */
 
 export const contacts = {
-  phone: "+7 (000) 000-00-00",
-  phoneHref: "tel:+70000000000",
-  whatsapp: "+7 (000) 000-00-00",
-  whatsappHref: "https://wa.me/70000000000",
+  phone: "+7 (747) 411-69-02",
+  phoneHref: "tel:+77474116902",
+  whatsapp: "+7 (747) 411-69-02",
+  whatsappHref: "https://wa.me/77474116902",
   telegram: "@liauto_parts",
   telegramHref: "https://t.me/liauto_parts",
   instagram: "@liauto.parts",
