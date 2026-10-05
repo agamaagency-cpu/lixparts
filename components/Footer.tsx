@@ -100,7 +100,7 @@ export default function Footer() {
 
         <div className="mt-12 flex flex-col items-start justify-between gap-3 border-t border-graphite-200 pt-6 text-xs text-graphite-400 sm:flex-row sm:items-center">
           <p>© {year} {brand.name}. Все права защищены.</p>
-          <p className="max-w-xl">
+          <p className="max-w-md">
             Li Auto и Lixiang — торговые марки соответствующих правообладателей. Сайт
             не является официальным дилером. Продаются оригинальные б/у детали.
           </p>

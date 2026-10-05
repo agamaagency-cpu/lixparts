@@ -89,11 +89,11 @@ export default function PartImage({
           {label}
         </span>
         {sub && (
-          <span className="mt-0.5 text-[11px] uppercase tracking-wider text-graphite-400">
+          <span className="mt-0.5 text-xs uppercase tracking-wider text-graphite-400">
             {sub}
           </span>
         )}
-        <span className="mt-2 text-[10px] uppercase tracking-widest text-graphite-400/80">
+        <span className="mt-2 text-[11px] uppercase tracking-widest text-graphite-400/80">
           Реальное фото по запросу
         </span>
       </div>

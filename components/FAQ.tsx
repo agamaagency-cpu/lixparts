@@ -10,13 +10,13 @@ export default function FAQ({ items }: { items: { q: string; a: string }[] }) {
       {items.map((item, i) => {
         const isOpen = open === i;
         return (
-          <div key={i}>
+          <div key={i} className="px-5 sm:px-6">
             <button
               onClick={() => setOpen(isOpen ? null : i)}
-              className="flex w-full items-center justify-between gap-4 px-5 py-5 text-left transition-colors hover:bg-graphite-50 sm:px-6"
+              className="group flex w-full items-center justify-between gap-4 py-5 text-left"
               aria-expanded={isOpen}
             >
-              <span className="text-[15px] font-medium text-graphite-900">
+              <span className="text-[15px] font-medium text-graphite-900 transition-colors group-hover:text-graphite-600">
                 {item.q}
               </span>
               <ChevronDown
@@ -28,12 +28,12 @@ export default function FAQ({ items }: { items: { q: string; a: string }[] }) {
               />
             </button>
             <div
-              className={`grid transition-all duration-300 ease-out ${
+              className={`grid transition-[grid-template-rows,opacity] duration-300 ease-out ${
                 isOpen ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"
               }`}
             >
               <div className="overflow-hidden">
-                <p className="px-5 pb-5 text-sm leading-relaxed text-graphite-500 sm:px-6">
+                <p className="max-w-lg pb-5 text-sm leading-relaxed text-graphite-500">
                   {item.a}
                 </p>
               </div>

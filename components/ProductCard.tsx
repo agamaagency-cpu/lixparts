@@ -41,7 +41,7 @@ export default function ProductCard({
           <StatusBadge status={product.status} />
         </div>
         {product.images && product.images.length > 1 && (
-          <span className="absolute bottom-3 left-3 rounded-full bg-black/55 px-2 py-0.5 text-[11px] font-medium text-white">
+          <span className="absolute bottom-3 left-3 rounded-full bg-black/55 px-2 py-0.5 text-xs font-medium text-white">
             {product.images.length} фото
           </span>
         )}
@@ -72,7 +72,7 @@ export default function ProductCard({
       </div>
 
       <div className="flex flex-1 flex-col p-4">
-        <div className="mb-1.5 flex items-center gap-2 text-[11px] font-medium uppercase tracking-wide text-graphite-400">
+        <div className="mb-1.5 flex items-center gap-2 text-xs font-medium uppercase tracking-wide text-graphite-400">
           <span>{model?.name}</span>
           <span className="h-1 w-1 rounded-full bg-graphite-300" />
           <span>{product.location}</span>
@@ -96,14 +96,14 @@ export default function ProductCard({
           <span>{product.condition}</span>
         </div>
 
-        <p className="mt-1 text-[11px] text-graphite-400">Артикул: {product.sku}</p>
+        <p className="mt-1 text-xs text-graphite-400">Артикул: {product.sku}</p>
 
         <div className="mt-4 flex items-end justify-between">
           <div className="text-lg font-semibold text-graphite-900">
             {formatPrice(product.price)}
           </div>
           {product.paintReady && (
-            <span className="rounded-full bg-emerald-50 px-2 py-0.5 text-[10px] font-medium text-emerald-700 ring-1 ring-inset ring-emerald-600/20">
+            <span className="rounded-full bg-emerald-50 px-2 py-0.5 text-[11px] font-medium text-emerald-700 ring-1 ring-inset ring-emerald-600/20">
               Без покраски
             </span>
           )}

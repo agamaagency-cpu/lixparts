@@ -78,7 +78,7 @@ export default function NosecutConfigurator() {
                     <span
                       className={`flex h-6 w-6 items-center justify-center rounded-full ${
                         on
-                          ? "bg-emerald-500 text-white"
+                          ? "bg-emerald-700 text-white"
                           : "bg-graphite-100 text-graphite-400"
                       }`}
                     >
@@ -97,9 +97,11 @@ export default function NosecutConfigurator() {
       </div>
 
       <div className="mt-4 rounded-xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-800">
-        <strong className="font-semibold">Важно:</strong> комплектация конкретного
-        ноуската зависит от поступления. Полный состав уточняйте по фотографиям или у
-        менеджера — набор выше показан как типовой пример.
+        <p className="max-w-[60ch]">
+          <strong className="font-semibold">Важно:</strong> комплектация конкретного
+          ноуската зависит от поступления. Полный состав уточняйте по фотографиям или у
+          менеджера — набор выше показан как типовой пример.
+        </p>
       </div>
     </div>
   );

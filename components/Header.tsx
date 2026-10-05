@@ -64,7 +64,7 @@ export default function Header() {
               <span className="text-[15px] font-semibold tracking-tight text-graphite-900">
                 {brand.name}
               </span>
-              <span className="text-[10px] uppercase tracking-[0.16em] text-graphite-400">
+              <span className="text-[11px] uppercase tracking-[0.16em] text-graphite-400">
                 Li Auto Parts
               </span>
             </span>
@@ -96,7 +96,7 @@ export default function Header() {
             >
               <HeartIcon width={19} height={19} />
               {favorites.length > 0 && (
-                <span className="absolute -right-0.5 -top-0.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-graphite-900 px-1 text-[10px] font-semibold text-white">
+                <span className="absolute -right-0.5 -top-0.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-graphite-900 px-1 text-[11px] font-semibold text-white">
                   {favorites.length}
                 </span>
               )}
@@ -108,7 +108,7 @@ export default function Header() {
             >
               <CompareIcon width={19} height={19} />
               {compare.length > 0 && (
-                <span className="absolute -right-0.5 -top-0.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-graphite-900 px-1 text-[10px] font-semibold text-white">
+                <span className="absolute -right-0.5 -top-0.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-graphite-900 px-1 text-[11px] font-semibold text-white">
                   {compare.length}
                 </span>
               )}

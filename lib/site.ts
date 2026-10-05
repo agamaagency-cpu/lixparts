@@ -1,6 +1,6 @@
 // Единая точка правды по домену.
 // На проде задаётся переменной окружения NEXT_PUBLIC_SITE_URL (в настройках Cloudflare Pages),
-// локально и до покупки домена используется значение по умолчанию.
+// по умолчанию — боевой домен rsautoparts.kz.
 export const SITE_URL = (
-  process.env.NEXT_PUBLIC_SITE_URL ?? "https://lixparts.agamaagency.workers.dev"
+  process.env.NEXT_PUBLIC_SITE_URL ?? "https://rsautoparts.kz"
 ).replace(/\/$/, "");

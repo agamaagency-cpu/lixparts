@@ -45,7 +45,7 @@ export default function CategoryGrid({
               />
             </span>
             {c!.nameEn && (
-              <span className="mt-0.5 block text-[11px] uppercase tracking-wide text-graphite-400">
+              <span className="mt-0.5 block text-xs uppercase tracking-wide text-graphite-400">
                 {c!.nameEn}
               </span>
             )}

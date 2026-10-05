@@ -62,7 +62,7 @@ export default function LeadForm({
   if (sent) {
     return (
       <div className="flex flex-col items-center justify-center rounded-2xl border border-emerald-200 bg-emerald-50 p-8 text-center">
-        <span className="mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-emerald-500 text-white">
+        <span className="mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-emerald-700 text-white">
           <CheckIcon width={24} height={24} />
         </span>
         <h3 className="text-lg font-semibold text-graphite-900">Заявка отправлена</h3>

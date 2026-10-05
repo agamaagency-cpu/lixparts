@@ -26,7 +26,7 @@ export default function NosecutPage() {
           />
           <div className="mt-6 grid items-center gap-8 lg:grid-cols-[1.1fr_0.9fr]">
             <div>
-              <span className="inline-flex rounded-full bg-white/10 px-3 py-1 text-xs font-semibold uppercase tracking-wide">
+              <span className="inline-flex rounded-full bg-white/10 px-3 py-1 text-xs font-semibold">
                 Nosecut · передняя часть в сборе
               </span>
               <h1 className="mt-4 text-4xl font-semibold tracking-tight sm:text-5xl">

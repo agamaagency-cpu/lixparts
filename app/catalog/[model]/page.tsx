@@ -17,6 +17,14 @@ import { Button, SectionHeading } from "@/components/ui";
 import { ArrowRight, CategoryGlyph, WhatsAppGlyph } from "@/components/Icons";
 import { contacts } from "@/lib/data";
 
+/** Акцент модели, смешанный с белым: непрозрачный светлый оттенок для фона баннера. */
+function tint(hex: string, amount: number): string {
+  const n = parseInt(hex.slice(1), 16);
+  const mix = (c: number) => Math.round(255 + (c - 255) * amount);
+  const [r, g, b] = [(n >> 16) & 255, (n >> 8) & 255, n & 255].map(mix);
+  return `rgb(${r}, ${g}, ${b})`;
+}
+
 export function generateStaticParams() {
   return models.map((m) => ({ model: m.slug }));
 }
@@ -47,9 +55,8 @@ export default function ModelPage({ params }: { params: { model: string } }) {
       {/* Баннер модели */}
       <section
         className="relative overflow-hidden border-b border-graphite-200"
-        style={{ background: `linear-gradient(135deg, ${model.accent}0d, ${model.accent}1f)` }}
+        style={{ background: `linear-gradient(135deg, ${tint(model.accent, 0.05)}, ${tint(model.accent, 0.12)})` }}
       >
-        <div className="absolute inset-0 grid-pattern opacity-40" />
         <div className="container-x relative py-10 sm:py-14">
           <Breadcrumbs
             items={[
@@ -149,7 +156,7 @@ export default function ModelPage({ params }: { params: { model: string } }) {
                         <span className="block text-sm font-medium text-graphite-900">
                           {c.name}
                         </span>
-                        <span className="block text-[11px] uppercase tracking-wide text-graphite-400">
+                        <span className="block text-xs uppercase tracking-wide text-graphite-400">
                           {items.length > 1 ? `${items.length} ${items.length < 5 ? "варианта" : "вариантов"} · ` : ""}
                           {items.some((p) => p.images?.length) ? "есть фото" : "по запросу"}
                         </span>

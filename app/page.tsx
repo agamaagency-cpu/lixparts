@@ -106,7 +106,7 @@ export default function HomePage() {
           <div className="grid items-center gap-12 lg:grid-cols-[1.05fr_0.95fr]">
             <div className="reveal">
               <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-graphite-200 bg-white px-3.5 py-1.5 text-xs font-medium text-graphite-600 shadow-sm">
-                <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
+                <span className="h-1.5 w-1.5 rounded-full bg-emerald-700" />
                 Оригинальные запчасти Li Auto · L6 · L7 · L9
               </div>
               <h1 className="text-balance text-4xl font-semibold leading-[1.05] tracking-tight text-graphite-900 sm:text-5xl lg:text-6xl">
@@ -127,7 +127,7 @@ export default function HomePage() {
                   href={contacts.whatsappHref}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center justify-center gap-2 rounded-full bg-emerald-500 px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-emerald-600"
+                  className="inline-flex items-center justify-center gap-2 rounded-full bg-emerald-700 px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-emerald-800"
                 >
                   <WhatsAppGlyph width={18} height={18} />
                   Написать в WhatsApp
@@ -154,7 +154,7 @@ export default function HomePage() {
             {/* Hero visual */}
             <div className="reveal relative">
               <div className="relative overflow-hidden rounded-3xl border border-graphite-200 bg-gradient-to-br from-graphite-50 to-graphite-100 p-8 shadow-card">
-                <div className="absolute right-5 top-5 rounded-full bg-white/80 px-3 py-1 text-[11px] font-semibold uppercase tracking-wide text-graphite-500">
+                <div className="absolute right-5 top-5 rounded-full bg-white/80 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-graphite-500">
                   Li Auto L9
                 </div>
                 <CarSilhouette className="mt-6 w-full" />
@@ -421,7 +421,7 @@ export default function HomePage() {
       <section className="border-y border-graphite-200 bg-graphite-900">
         <div className="container-x py-20">
           <div className="max-w-2xl">
-            <div className="mb-3 flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-graphite-400">
+            <div className="mb-3 flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-graphite-300">
               <span className="h-px w-6 bg-graphite-600" />
               Почему нам доверяют
             </div>
@@ -439,7 +439,7 @@ export default function HomePage() {
                   <f.icon width={20} height={20} />
                 </span>
                 <h3 className="mt-4 text-base font-semibold text-white">{f.title}</h3>
-                <p className="mt-1.5 text-sm text-graphite-400">{f.text}</p>
+                <p className="mt-1.5 text-sm text-graphite-300">{f.text}</p>
               </div>
             ))}
           </div>

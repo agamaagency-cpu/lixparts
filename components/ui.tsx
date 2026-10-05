@@ -101,7 +101,7 @@ export function SectionHeading({
         {title}
       </h2>
       {subtitle && (
-        <p className="mt-4 text-base leading-relaxed text-graphite-500">{subtitle}</p>
+        <p className="mt-4 max-w-xl text-base leading-relaxed text-graphite-500">{subtitle}</p>
       )}
     </div>
   );
@@ -116,7 +116,7 @@ export function StatusBadge({ status }: { status: ProductStatus }) {
     sold: "bg-graphite-100 text-graphite-500 ring-graphite-500/20",
   };
   const dot: Record<ProductStatus, string> = {
-    in_stock: "bg-emerald-500",
+    in_stock: "bg-emerald-700",
     on_order: "bg-amber-500",
     sold: "bg-graphite-400",
   };

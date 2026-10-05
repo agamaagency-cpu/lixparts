@@ -47,9 +47,9 @@ export default function ProductDetail({ product }: { product: Product }) {
   ];
 
   return (
-    <div className="grid gap-10 lg:grid-cols-[1.05fr_0.95fr]">
+    <div className="grid gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:items-start">
       {/* Галерея */}
-      <div>
+      <div className="lg:col-start-1 lg:row-start-1">
         <div
           className={`relative overflow-hidden rounded-2xl border border-graphite-200 ${
             images[activeImg].src ? "cursor-zoom-in" : ""
@@ -128,7 +128,7 @@ export default function ProductDetail({ product }: { product: Product }) {
       </div>
 
       {/* Информация */}
-      <div>
+      <div className="lg:col-start-2 lg:row-span-2 lg:row-start-1">
         <div className="flex items-center gap-3">
           <StatusBadge status={product.status} />
           {product.paintReady && (
@@ -189,7 +189,7 @@ export default function ProductDetail({ product }: { product: Product }) {
               href={`${contacts.whatsappHref}?text=${waText}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center justify-center gap-2 rounded-full bg-emerald-500 px-4 py-3 text-sm font-medium text-white hover:bg-emerald-600"
+              className="flex items-center justify-center gap-2 rounded-full bg-emerald-700 px-4 py-3 text-sm font-medium text-white hover:bg-emerald-800"
             >
               <WhatsAppGlyph width={17} height={17} /> WhatsApp
             </a>
@@ -237,10 +237,29 @@ export default function ProductDetail({ product }: { product: Product }) {
           </a>
         </div>
 
+        {/* Совместимость */}
+        <div className="mt-6 rounded-2xl border border-graphite-200 bg-graphite-50 p-5">
+          <h2 className="text-sm font-semibold text-graphite-900">Совместимость</h2>
+          <p className="mt-2 text-sm text-graphite-500">Подходит для:</p>
+          <div className="mt-2 flex items-center gap-2">
+            <span className="inline-flex items-center gap-1.5 rounded-full bg-white px-3 py-1.5 text-sm font-medium text-graphite-800 ring-1 ring-graphite-200">
+              <CheckIcon width={15} height={15} className="text-emerald-600" />
+              {model?.name}
+            </span>
+          </div>
+          <p className="mt-3 max-w-[60ch] text-xs text-graphite-500">
+            Точную совместимость с вашей комплектацией уточним по VIN — отправьте его в
+            WhatsApp, и мы всё проверим.
+          </p>
+        </div>
+      </div>
+
+      {/* Описание и характеристики: на десктопе под галереей, на мобильном после кнопок */}
+      <div className="lg:col-start-1 lg:row-start-2">
         {/* Описание */}
-        <div className="mt-8 border-t border-graphite-200 pt-6">
+        <div className="border-t border-graphite-200 pt-6">
           <h2 className="text-sm font-semibold text-graphite-900">Описание</h2>
-          <p className="mt-2 text-sm leading-relaxed text-graphite-500">
+          <p className="mt-2 max-w-[60ch] text-sm leading-relaxed text-graphite-500">
             {product.description}
           </p>
         </div>
@@ -258,21 +277,6 @@ export default function ProductDetail({ product }: { product: Product }) {
           </dl>
         </div>
 
-        {/* Совместимость */}
-        <div className="mt-6 rounded-2xl border border-graphite-200 bg-graphite-50 p-5">
-          <h2 className="text-sm font-semibold text-graphite-900">Совместимость</h2>
-          <p className="mt-2 text-sm text-graphite-500">Подходит для:</p>
-          <div className="mt-2 flex items-center gap-2">
-            <span className="inline-flex items-center gap-1.5 rounded-full bg-white px-3 py-1.5 text-sm font-medium text-graphite-800 ring-1 ring-graphite-200">
-              <CheckIcon width={15} height={15} className="text-emerald-600" />
-              {model?.name}
-            </span>
-          </div>
-          <p className="mt-3 text-xs text-graphite-400">
-            Точную совместимость с вашей комплектацией уточним по VIN — отправьте его в
-            WhatsApp, и мы всё проверим.
-          </p>
-        </div>
       </div>
     </div>
   );
@@ -281,7 +285,7 @@ export default function ProductDetail({ product }: { product: Product }) {
 function MiniSpec({ label, children }: { label: string; children: React.ReactNode }) {
   return (
     <div className="rounded-xl border border-graphite-200 bg-white px-4 py-3">
-      <div className="text-[11px] font-medium uppercase tracking-wide text-graphite-400">
+      <div className="text-xs font-medium uppercase tracking-wide text-graphite-400">
         {label}
       </div>
       <div className="mt-0.5 text-sm font-medium text-graphite-900">{children}</div>

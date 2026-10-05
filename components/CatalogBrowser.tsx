@@ -256,7 +256,7 @@ export default function CatalogBrowser({
             <FilterIcon width={18} height={18} />
             Фильтры
             {activeCount > 0 && (
-              <span className="flex h-5 w-5 items-center justify-center rounded-full bg-graphite-900 text-[10px] text-white">
+              <span className="flex h-5 w-5 items-center justify-center rounded-full bg-graphite-900 text-[11px] text-white">
                 {activeCount}
               </span>
             )}
@@ -334,9 +334,9 @@ export default function CatalogBrowser({
 function FilterBlock({ title, children }: { title: string; children: React.ReactNode }) {
   return (
     <div>
-      <h4 className="mb-3 text-xs font-semibold uppercase tracking-wide text-graphite-400">
+      <h3 className="mb-3 text-xs font-semibold uppercase tracking-wide text-graphite-400">
         {title}
-      </h4>
+      </h3>
       {children}
     </div>
   );
