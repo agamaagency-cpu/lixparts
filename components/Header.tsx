@@ -19,7 +19,6 @@ const nav = [
   { href: "/catalog/l6", label: "L6" },
   { href: "/catalog/l7", label: "L7" },
   { href: "/catalog/l9", label: "L9" },
-  { href: "/nosecut", label: "Ноускаты" },
   { href: "/partners", label: "Для СТО" },
   { href: "/about", label: "О компании" },
   { href: "/contacts", label: "Контакты" },
@@ -58,7 +57,7 @@ export default function Header() {
           {/* Лого */}
           <Link href="/" className="flex items-center gap-2.5">
             <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-graphite-900 text-sm font-bold text-white">
-              LX
+              RS
             </span>
             <span className="flex flex-col leading-none">
               <span className="text-[15px] font-semibold tracking-tight text-graphite-900">

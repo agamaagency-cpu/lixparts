@@ -8,10 +8,11 @@ import {
   getModel,
   getProductsByModel,
   models,
+  modelCoverPhoto,
   productHref,
 } from "@/lib/data";
 import Breadcrumbs from "@/components/Breadcrumbs";
-import CarSilhouette from "@/components/CarSilhouette";
+import Banner from "@/components/Banner";
 import CatalogBrowser from "@/components/CatalogBrowser";
 import { Button, SectionHeading } from "@/components/ui";
 import { ArrowRight, CategoryGlyph, WhatsAppGlyph } from "@/components/Icons";
@@ -92,9 +93,14 @@ export default function ModelPage({ params }: { params: { model: string } }) {
                 </a>
               </div>
             </div>
-            <div className="hidden justify-center lg:flex">
-              <CarSilhouette className="w-full max-w-md" color={model.accent} />
-            </div>
+            {/* Баннер модели: public/banners, размеры в lib/banners.ts */}
+            <Banner
+              slot={`model-hero-${model.slug}`}
+              fallback={modelCoverPhoto(model.slug)}
+              ratio="aspect-[3/2]"
+              className="rounded-3xl"
+              eager
+            />
           </div>
 
           {/* Переключение моделей */}
@@ -149,9 +155,7 @@ export default function ModelPage({ params }: { params: { model: string } }) {
                       href={href}
                       className="group flex items-center gap-3 rounded-xl border border-graphite-200 bg-white px-4 py-3.5 transition-all hover:border-graphite-300 hover:shadow-soft"
                     >
-                      <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-graphite-100 text-graphite-700 transition-colors group-hover:bg-graphite-900 group-hover:text-white">
-                        <CategoryGlyph name={c.icon} width={18} height={18} />
-                      </span>
+                      <CategoryGlyph name={c.icon} width={20} height={20} className="shrink-0 text-graphite-500 transition-colors group-hover:text-graphite-900" />
                       <span className="flex-1">
                         <span className="block text-sm font-medium text-graphite-900">
                           {c.name}
@@ -177,7 +181,7 @@ export default function ModelPage({ params }: { params: { model: string } }) {
       </section>
 
       {/* Каталог модели с фильтрами */}
-      <section id="catalog" className="border-t border-graphite-200 bg-graphite-50">
+      <section id="catalog" className="bg-graphite-50">
         <div className="container-x py-16">
           <SectionHeading
             eyebrow="Все детали"

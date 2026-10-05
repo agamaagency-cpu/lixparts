@@ -46,9 +46,7 @@ export default function ContactsPage() {
             {rows.map((r) => {
               const inner = (
                 <div className="flex h-full items-start gap-3 rounded-2xl border border-graphite-200 bg-white p-5 transition-colors hover:border-graphite-300">
-                  <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-graphite-100 text-graphite-700">
-                    <r.icon width={19} height={19} />
-                  </span>
+                  <r.icon width={20} height={20} className="mt-0.5 shrink-0 text-graphite-500" />
                   <div>
                     <div className="text-xs font-medium uppercase tracking-wide text-graphite-400">
                       {r.label}

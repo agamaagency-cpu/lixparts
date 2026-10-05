@@ -87,16 +87,6 @@ export function SectionHeading({
 }) {
   return (
     <div className={`${center ? "mx-auto max-w-2xl text-center" : "max-w-2xl"} ${className}`}>
-      {eyebrow && (
-        <div
-          className={`mb-3 flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-graphite-400 ${
-            center ? "justify-center" : ""
-          }`}
-        >
-          <span className="h-px w-6 bg-graphite-300" />
-          {eyebrow}
-        </div>
-      )}
       <h2 className="text-balance text-3xl font-semibold tracking-tight text-graphite-900 sm:text-4xl">
         {title}
       </h2>

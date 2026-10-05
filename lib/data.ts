@@ -113,7 +113,7 @@ export const categoryGroups: CategoryGroup[] = [
   {
     slug: "misc",
     title: "Дополнительно",
-    categories: ["door-handles", "hood-lock", "plastic-parts", "wiring", "nosecut"],
+    categories: ["door-handles", "hood-lock", "plastic-parts", "wiring"],
   },
 ];
 
@@ -167,7 +167,6 @@ export const categories: Category[] = [
   { slug: "hood-lock", name: "Замок капота", nameEn: "Hood Latch", group: "misc", icon: "bracket" },
   { slug: "plastic-parts", name: "Пластиковые элементы", nameEn: "Plastic Parts", group: "misc", icon: "plastic" },
   { slug: "wiring", name: "Проводка и разъёмы", nameEn: "Wiring & Connectors", group: "misc", icon: "wiring" },
-  { slug: "nosecut", name: "Ноускат (Nosecut)", nameEn: "Nosecut", group: "misc", icon: "nosecut" },
 ];
 
 export function getCategory(slug: string): Category | undefined {
@@ -189,7 +188,7 @@ export const popularCategorySlugs = [
   "left-headlight",
   "radiator",
   "front-frame",
-  "nosecut",
+  "grille-shutter",
 ];
 
 /* ------------------------------------------------------------------ */
@@ -218,7 +217,6 @@ interface DemoSeed {
 }
 
 const seed: DemoSeed[] = [
-  { category: "nosecut", name: "Nosecut (ноускат в сборе)", side: "front", location: "Передняя часть" },
   { category: "rear-bumper", name: "Rear Bumper Assembly", side: "rear", location: "Задняя часть", paintReady: true },
   { category: "front-bumper", name: "Front Bumper", side: "front", location: "Передняя часть", paintReady: true },
   { category: "left-front-door", name: "Left Front Door", side: "left", location: "Передняя левая", paintReady: true },
@@ -248,7 +246,6 @@ const statusCycle: Product["status"][] = ["in_stock", "in_stock", "on_order", "i
 
 function priceFor(category: string): number | null {
   const map: Record<string, number> = {
-    nosecut: 0,
     "rear-bumper": 78000,
     "front-bumper": 82000,
     "left-front-door": 96000,
@@ -331,7 +328,7 @@ const demoProducts: Product[] = (() => {
 })();
 
 /**
- * Реальный каталог приезжает из Google-таблицы «Склад LIXPARTS»:
+ * Реальный каталог приезжает из Google-таблицы «Склад RS AUTO PARTS»:
  * `npm run sync` тянет лист «Витрина» и переписывает lib/products.generated.json.
  * Пока таблица пустая — сайт живёт на демо-товарах.
  */
@@ -378,6 +375,17 @@ export function getFeaturedProducts(limit = 8): Product[] {
   const score = (p: Product) =>
     (p.featured ? 4 : 0) + (p.images?.length ? 2 : 0) + (p.price ? 1 : 0);
   return [...live].sort((a, b) => score(b) - score(a)).slice(0, limit);
+}
+
+/** Обложка модели до баннеров дизайнера: первое фото переднего бампера модели. */
+export function modelCoverPhoto(model: string): string | undefined {
+  const list = products.filter((p) => p.model === model && p.images?.length);
+  return (list.find((p) => p.categorySlug === "front-bumper") ?? list[0])?.images?.[0];
+}
+
+/** Фото для плитки категории: первая позиция категории с фото (любая модель). */
+export function categoryCoverPhoto(slug: string): string | undefined {
+  return products.find((p) => p.categorySlug === slug && p.images?.length)?.images?.[0];
 }
 
 /** Фото для галереи на главной: по одному кадру с разных товаров. */
@@ -438,47 +446,6 @@ export const faqs: { q: string; a: string }[] = [
 ];
 
 /* ------------------------------------------------------------------ */
-/*  НОУСКАТ — конструктор комплектаций                                  */
-/* ------------------------------------------------------------------ */
-
-export interface NosecutPart {
-  name: string;
-  group: string;
-  // в каких типовых комплектах встречается (для «конструктора» с галочками)
-  basic: boolean;
-  standard: boolean;
-  full: boolean;
-}
-
-export const nosecutParts: NosecutPart[] = [
-  { name: "Передний бампер", group: "Основные кузовные элементы", basic: true, standard: true, full: true },
-  { name: "Капот", group: "Основные кузовные элементы", basic: false, standard: true, full: true },
-  { name: "Переднее левое крыло", group: "Основные кузовные элементы", basic: false, standard: true, full: true },
-  { name: "Переднее правое крыло", group: "Основные кузовные элементы", basic: false, standard: true, full: true },
-  { name: "Радиатор охлаждения", group: "Система охлаждения", basic: true, standard: true, full: true },
-  { name: "Радиатор кондиционера", group: "Система охлаждения", basic: false, standard: true, full: true },
-  { name: "Вентилятор охлаждения", group: "Система охлаждения", basic: true, standard: true, full: true },
-  { name: "Диффузор вентилятора", group: "Система охлаждения", basic: false, standard: true, full: true },
-  { name: "Левая передняя фара", group: "Передняя оптика", basic: false, standard: true, full: true },
-  { name: "Правая передняя фара", group: "Передняя оптика", basic: false, standard: true, full: true },
-  { name: "Усилитель переднего бампера", group: "Усилители и крепления", basic: true, standard: true, full: true },
-  { name: "Телевизор / рамка передней части", group: "Усилители и крепления", basic: false, standard: true, full: true },
-  { name: "Кронштейны", group: "Усилители и крепления", basic: false, standard: false, full: true },
-  { name: "Направляющие", group: "Усилители и крепления", basic: false, standard: false, full: true },
-  { name: "Крепления", group: "Усилители и крепления", basic: false, standard: true, full: true },
-  { name: "Передняя нижняя накладка", group: "Дополнительные элементы", basic: false, standard: false, full: true },
-  { name: "Декоративные элементы", group: "Дополнительные элементы", basic: false, standard: false, full: true },
-  { name: "Проводка", group: "Дополнительные элементы", basic: false, standard: false, full: true },
-  { name: "Разъёмы", group: "Дополнительные элементы", basic: false, standard: false, full: true },
-];
-
-export const nosecutKits = [
-  { key: "basic", title: "Базовый", desc: "Минимальный набор передней части" },
-  { key: "standard", title: "Стандарт", desc: "Наиболее востребованная комплектация" },
-  { key: "full", title: "Полный", desc: "Максимально укомплектованный ноускат" },
-] as const;
-
-/* ------------------------------------------------------------------ */
 /*  КОНТАКТЫ                                                            */
 /* ------------------------------------------------------------------ */
 
@@ -499,7 +466,7 @@ export const contacts = {
 };
 
 export const brand = {
-  name: "LIXPARTS",
-  full: "LIXPARTS — оригинальные запчасти Li Auto",
+  name: "RS Auto Parts",
+  full: "RS Auto Parts — оригинальные запчасти Li Auto",
   tagline: "Оригинальные запчасти Li Auto L6 · L7 · L9",
 };

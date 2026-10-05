@@ -83,8 +83,8 @@ export default function LeadForm({
   return (
     <form
       onSubmit={handleSubmit}
-      className={`rounded-2xl border border-graphite-200 bg-white ${
-        compact ? "p-5" : "p-6 sm:p-8"
+      className={`rounded-2xl bg-white ${
+        compact ? "p-5 ring-1 ring-inset ring-graphite-100" : "border border-graphite-200 p-6 sm:p-8"
       }`}
     >
       {title && (

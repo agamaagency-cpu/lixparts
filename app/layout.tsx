@@ -16,8 +16,8 @@ const inter = Inter({
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: "Оригинальные запчасти Li Auto L6 · L7 · L9 | LIXPARTS",
-    template: "%s | LIXPARTS",
+    default: "Оригинальные запчасти Li Auto L6 · L7 · L9 | RS Auto Parts",
+    template: "%s | RS Auto Parts",
   },
   description:
     "Оригинальные б/у кузовные и технические запчасти Li Auto (Lixiang) L6, L7 и L9 из Китая. Минимальный износ, реальные фотографии, в наличии и под заказ. Помощь с подбором по VIN.",
@@ -29,7 +29,7 @@ export const metadata: Metadata = {
     "Li Auto L9",
     "оригинальные запчасти",
     "кузовные детали Li Auto",
-    "ноускат Li Auto",
+    "запчасти Li Auto Алматы",
   ],
   openGraph: {
     type: "website",
@@ -37,7 +37,7 @@ export const metadata: Metadata = {
     title: "Оригинальные запчасти Li Auto L6 · L7 · L9",
     description:
       "Оригинальные б/у детали Li Auto в отличном состоянии. В наличии и под заказ из Китая.",
-    siteName: "LIXPARTS",
+    siteName: "RS Auto Parts",
   },
 };
 

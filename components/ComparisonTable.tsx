@@ -76,7 +76,7 @@ export default function ComparisonTable() {
           </tbody>
         </table>
       </div>
-      <div className="border-t border-graphite-200 bg-graphite-50 p-4 text-xs text-graphite-500">
+      <div className="border-t border-graphite-200 p-4 text-xs text-graphite-500">
         <p className="max-w-[60ch]">
           Сравнение приведено для ориентира. Итоговое состояние конкретной детали
           всегда подтверждается реальными фотографиями.

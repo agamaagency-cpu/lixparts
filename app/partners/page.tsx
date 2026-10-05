@@ -34,7 +34,7 @@ const bullets = [
 export default function PartnersPage() {
   return (
     <div>
-      <section className="border-b border-graphite-200 bg-graphite-50">
+      <section className="bg-graphite-50">
         <div className="container-x py-12 sm:py-16">
           <Breadcrumbs items={[{ label: "Главная", href: "/" }, { label: "Для СТО" }]} />
           <div className="mt-6 max-w-2xl">
@@ -56,17 +56,17 @@ export default function PartnersPage() {
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {perks.map((p) => (
             <div key={p.title} className="rounded-2xl border border-graphite-200 bg-white p-6">
-              <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-graphite-900 text-white">
-                <p.icon width={22} height={22} />
-              </span>
-              <h3 className="mt-5 text-base font-semibold text-graphite-900">{p.title}</h3>
+              <h2 className="flex items-center gap-2.5 text-base font-semibold text-graphite-900">
+                <p.icon width={20} height={20} className="shrink-0 text-graphite-500" />
+                {p.title}
+              </h2>
               <p className="mt-2 text-sm text-graphite-500">{p.text}</p>
             </div>
           ))}
         </div>
       </section>
 
-      <section className="border-y border-graphite-200 bg-graphite-50">
+      <section className="bg-graphite-50">
         <div className="container-x py-16">
           <div className="grid items-start gap-10 lg:grid-cols-2">
             <div>

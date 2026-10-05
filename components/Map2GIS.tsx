@@ -21,7 +21,7 @@ export default function Map2GIS({ height = 360 }: { height?: number }) {
         className="block w-full border-0"
         style={{ height }}
       />
-      <div className="flex flex-wrap items-center justify-between gap-2 border-t border-graphite-200 bg-white px-4 py-3 text-sm">
+      <div className="flex flex-wrap items-center justify-between gap-2 border-t border-graphite-200 px-4 py-3 text-sm">
         <span className="text-graphite-600">{contacts.address}</span>
         <a
           href={contacts.twoGisHref}

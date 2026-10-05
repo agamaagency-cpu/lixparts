@@ -37,10 +37,10 @@ export default function DeliveryPage() {
       <div className="mt-10 grid gap-4 sm:grid-cols-3">
         {delivery.map((d) => (
           <div key={d.title} className="rounded-2xl border border-graphite-200 bg-white p-6">
-            <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-graphite-900 text-white">
-              <d.icon width={22} height={22} />
-            </span>
-            <h3 className="mt-5 text-base font-semibold text-graphite-900">{d.title}</h3>
+            <h3 className="flex items-center gap-2.5 text-base font-semibold text-graphite-900">
+                <d.icon width={20} height={20} className="shrink-0 text-graphite-500" />
+                {d.title}
+              </h3>
             <p className="mt-2 text-sm text-graphite-500">{d.text}</p>
           </div>
         ))}

@@ -5,15 +5,16 @@ import {
   faqs,
   getFeaturedProducts,
   getGalleryPhotos,
+  modelCoverPhoto,
   models,
   popularCategorySlugs,
 } from "@/lib/data";
 import { Button, SectionHeading } from "@/components/ui";
-import CarSilhouette from "@/components/CarSilhouette";
 import CategoryGrid from "@/components/CategoryGrid";
 import ComparisonTable from "@/components/ComparisonTable";
 import FAQ from "@/components/FAQ";
 import Gallery from "@/components/Gallery";
+import Banner from "@/components/Banner";
 import Map2GIS from "@/components/Map2GIS";
 import LeadForm from "@/components/LeadForm";
 import ProductCard from "@/components/ProductCard";
@@ -99,9 +100,7 @@ export default function HomePage() {
   return (
     <>
       {/* ============ HERO ============ */}
-      <section className="relative overflow-hidden border-b border-graphite-200 bg-white">
-        <div className="absolute inset-0 grid-pattern opacity-70" />
-        <div className="absolute -right-40 top-10 h-[400px] w-[600px] rounded-full bg-graphite-100/60 blur-3xl" />
+      <section className="relative overflow-hidden bg-white">
         <div className="container-x relative py-16 sm:py-20 lg:py-24">
           <div className="grid items-center gap-12 lg:grid-cols-[1.05fr_0.95fr]">
             <div className="reveal">
@@ -134,42 +133,25 @@ export default function HomePage() {
                 </a>
               </div>
 
-              <div className="mt-10 grid grid-cols-2 gap-3 sm:grid-cols-4">
+              <ul className="mt-10 grid grid-cols-2 gap-x-6 gap-y-3 sm:grid-cols-4">
                 {heroBadges.map((b) => (
-                  <div
-                    key={b.label}
-                    className="flex items-center gap-2.5 rounded-xl border border-graphite-200 bg-white/70 px-3 py-3"
-                  >
-                    <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-graphite-100 text-graphite-700">
-                      <b.icon width={17} height={17} />
-                    </span>
-                    <span className="text-xs font-medium leading-tight text-graphite-700">
-                      {b.label}
-                    </span>
-                  </div>
+                  <li key={b.label} className="flex items-center gap-2 text-sm font-medium leading-tight text-graphite-700">
+                    <b.icon width={18} height={18} className="shrink-0 text-graphite-500" />
+                    {b.label}
+                  </li>
                 ))}
-              </div>
+              </ul>
             </div>
 
-            {/* Hero visual */}
-            <div className="reveal relative">
-              <div className="relative overflow-hidden rounded-3xl border border-graphite-200 bg-gradient-to-br from-graphite-50 to-graphite-100 p-8 shadow-card">
-                <div className="absolute right-5 top-5 rounded-full bg-white/80 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-graphite-500">
-                  Li Auto L9
-                </div>
-                <CarSilhouette className="mt-6 w-full" />
-                <div className="mt-6 grid grid-cols-3 gap-3">
-                  {models.map((m) => (
-                    <Link
-                      key={m.slug}
-                      href={`/catalog/${m.slug}`}
-                      className="rounded-xl bg-white/80 px-3 py-2.5 text-center text-sm font-semibold text-graphite-800 ring-1 ring-graphite-200 transition-colors hover:bg-white"
-                    >
-                      {m.short}
-                    </Link>
-                  ))}
-                </div>
-              </div>
+            {/* Баннер первого экрана: public/banners, размеры в lib/banners.ts */}
+            <div className="reveal">
+              <Banner
+                slot="home-hero"
+                fallback={modelCoverPhoto("l9")}
+                ratio="aspect-[4/3]"
+                className="rounded-3xl"
+                eager
+              />
             </div>
           </div>
         </div>
@@ -189,17 +171,11 @@ export default function HomePage() {
               href={`/catalog/${m.slug}`}
               className="group relative flex flex-col overflow-hidden rounded-3xl border border-graphite-200 bg-white transition-all duration-300 hover:-translate-y-1 hover:shadow-lift"
             >
-              <div
-                className="relative flex items-center justify-center p-8"
-                style={{
-                  background: `linear-gradient(135deg, ${m.accent}0d, ${m.accent}1a)`,
-                }}
-              >
-                <span className="absolute left-5 top-5 text-5xl font-bold tracking-tight text-graphite-900/10">
-                  {m.short}
-                </span>
-                <CarSilhouette className="w-full max-w-[280px]" color={m.accent} />
-              </div>
+              <Banner
+                slot={`model-card-${m.slug}`}
+                fallback={modelCoverPhoto(m.slug)}
+                ratio="aspect-[16/10]"
+              />
               <div className="flex flex-1 flex-col p-6">
                 <h3 className="text-xl font-semibold text-graphite-900">{m.name}</h3>
                 <p className="mt-1 text-sm text-graphite-500">{m.tagline}</p>
@@ -219,7 +195,7 @@ export default function HomePage() {
       </section>
 
       {/* ============ ПОЧЕМУ ВЫБИРАЮТ НАС ============ */}
-      <section className="border-y border-graphite-200 bg-graphite-50">
+      <section className="bg-graphite-50">
         <div className="container-x py-20">
           <SectionHeading
             eyebrow="Почему выбирают нас"
@@ -232,10 +208,8 @@ export default function HomePage() {
                 key={a.title}
                 className="rounded-2xl border border-graphite-200 bg-white p-6 transition-shadow hover:shadow-card"
               >
-                <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-graphite-900 text-white">
-                  <a.icon width={22} height={22} />
-                </span>
-                <h3 className="mt-5 text-lg font-semibold text-graphite-900">
+                <h3 className="flex items-center gap-2.5 text-lg font-semibold text-graphite-900">
+                  <a.icon width={22} height={22} className="shrink-0 text-graphite-500" />
                   {a.title}
                 </h3>
                 <p className="mt-2 text-sm leading-relaxed text-graphite-500">
@@ -281,7 +255,7 @@ export default function HomePage() {
       </section>
 
       {/* ============ ПОПУЛЯРНЫЕ КАТЕГОРИИ ============ */}
-      <section className="border-y border-graphite-200 bg-graphite-50">
+      <section className="bg-graphite-50">
         <div className="container-x py-20">
           <div className="flex flex-wrap items-end justify-between gap-4">
             <SectionHeading
@@ -311,7 +285,7 @@ export default function HomePage() {
       </section>
 
       {/* ============ В НАЛИЧИИ ПРЯМО СЕЙЧАС ============ */}
-      <section className="border-y border-graphite-200 bg-graphite-50">
+      <section className="bg-graphite-50">
         <div className="container-x py-20">
           <div className="flex flex-wrap items-end justify-between gap-4">
             <SectionHeading eyebrow="Наличие" title="В наличии прямо сейчас" />
@@ -330,7 +304,7 @@ export default function HomePage() {
       {/* ============ VIN + ЦВЕТ ============ */}
       <section className="container-x py-20">
         <div className="grid gap-6 lg:grid-cols-2">
-          <div className="rounded-3xl border border-graphite-200 bg-graphite-900 p-8 text-white sm:p-10">
+          <div className="rounded-3xl bg-graphite-900 p-8 text-white sm:p-10">
             <span className="inline-flex rounded-full bg-white/10 px-3 py-1 text-xs font-medium uppercase tracking-wide">
               Проверка по VIN
             </span>
@@ -349,7 +323,7 @@ export default function HomePage() {
             </div>
           </div>
 
-          <div className="flex flex-col rounded-3xl border border-graphite-200 bg-white p-8 sm:p-10">
+          <div className="flex flex-col rounded-3xl bg-graphite-50 p-8 sm:p-10">
             <span className="inline-flex w-fit rounded-full bg-graphite-100 px-3 py-1 text-xs font-medium uppercase tracking-wide text-graphite-600">
               Проверка цвета
             </span>
@@ -373,7 +347,7 @@ export default function HomePage() {
       </section>
 
       {/* ============ CTA: НЕ НАШЛИ ДЕТАЛЬ ============ */}
-      <section className="border-y border-graphite-200 bg-graphite-50">
+      <section className="bg-graphite-50">
         <div className="container-x py-20">
           <div className="grid items-center gap-10 lg:grid-cols-[0.9fr_1.1fr]">
             <div>
@@ -418,13 +392,9 @@ export default function HomePage() {
       </section>
 
       {/* ============ ПОЧЕМУ НАМ ДОВЕРЯЮТ ============ */}
-      <section className="border-y border-graphite-200 bg-graphite-900">
+      <section className="bg-graphite-900">
         <div className="container-x py-20">
           <div className="max-w-2xl">
-            <div className="mb-3 flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-graphite-300">
-              <span className="h-px w-6 bg-graphite-600" />
-              Почему нам доверяют
-            </div>
             <h2 className="text-3xl font-semibold tracking-tight text-white sm:text-4xl">
               Факты вместо громких обещаний
             </h2>
@@ -435,10 +405,10 @@ export default function HomePage() {
                 key={f.title}
                 className="rounded-2xl border border-white/10 bg-white/5 p-6"
               >
-                <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-white/10 text-white">
-                  <f.icon width={20} height={20} />
-                </span>
-                <h3 className="mt-4 text-base font-semibold text-white">{f.title}</h3>
+                <h3 className="flex items-center gap-2.5 text-base font-semibold text-white">
+                  <f.icon width={20} height={20} className="shrink-0 text-graphite-300" />
+                  {f.title}
+                </h3>
                 <p className="mt-1.5 text-sm text-graphite-300">{f.text}</p>
               </div>
             ))}
@@ -473,7 +443,7 @@ function HomeContacts() {
     { icon: ClockIcon, label: "График работы", value: contacts.hours },
   ];
   return (
-    <section id="contacts" className="border-t border-graphite-200 bg-graphite-50">
+    <section id="contacts" className="bg-graphite-50">
       <div className="container-x py-20">
         <SectionHeading eyebrow="Контакты" title="Свяжитесь с нами" />
         <div className="mt-10 grid gap-6 lg:grid-cols-2">
@@ -481,9 +451,7 @@ function HomeContacts() {
             {rows.map((r) => {
               const inner = (
                 <div className="flex items-start gap-3 rounded-2xl border border-graphite-200 bg-white p-5 transition-colors hover:border-graphite-300">
-                  <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-graphite-100 text-graphite-700">
-                    <r.icon width={19} height={19} />
-                  </span>
+                  <r.icon width={20} height={20} className="mt-0.5 shrink-0 text-graphite-500" />
                   <div>
                     <div className="text-xs font-medium uppercase tracking-wide text-graphite-400">
                       {r.label}

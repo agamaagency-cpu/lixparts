@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import { Button, SectionHeading } from "@/components/ui";
-import CarSilhouette from "@/components/CarSilhouette";
+import Banner from "@/components/Banner";
 import {
   CameraIcon,
   CheckIcon,
@@ -11,7 +11,7 @@ import {
   SparkIcon,
   TruckIcon,
 } from "@/components/Icons";
-import { models } from "@/lib/data";
+import { modelCoverPhoto, models } from "@/lib/data";
 
 export const metadata: Metadata = {
   title: "О компании — оригинальные запчасти Li Auto",
@@ -49,9 +49,7 @@ export default function AboutPage() {
                 <Button href="/contacts" variant="secondary">Связаться с нами</Button>
               </div>
             </div>
-            <div className="rounded-3xl border border-graphite-200 bg-gradient-to-br from-graphite-50 to-graphite-100 p-8">
-              <CarSilhouette className="w-full" />
-            </div>
+            <Banner slot="about-hero" fallback={modelCoverPhoto("l7")} ratio="aspect-[4/3]" className="rounded-3xl" eager />
           </div>
         </div>
       </section>
@@ -61,17 +59,17 @@ export default function AboutPage() {
         <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {values.map((v) => (
             <div key={v.title} className="rounded-2xl border border-graphite-200 bg-white p-6">
-              <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-graphite-900 text-white">
-                <v.icon width={22} height={22} />
-              </span>
-              <h3 className="mt-5 text-base font-semibold text-graphite-900">{v.title}</h3>
+              <h3 className="flex items-center gap-2.5 text-base font-semibold text-graphite-900">
+                <v.icon width={20} height={20} className="shrink-0 text-graphite-500" />
+                {v.title}
+              </h3>
               <p className="mt-2 text-sm text-graphite-500">{v.text}</p>
             </div>
           ))}
         </div>
       </section>
 
-      <section className="border-y border-graphite-200 bg-graphite-50">
+      <section className="bg-graphite-50">
         <div className="container-x py-16">
           <div className="grid gap-10 lg:grid-cols-2">
             <div>

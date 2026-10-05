@@ -16,7 +16,7 @@ export default function Footer() {
           <div>
             <Link href="/" className="flex items-center gap-2.5">
               <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-graphite-900 text-sm font-bold text-white">
-                LX
+                RS
               </span>
               <span className="text-[15px] font-semibold tracking-tight text-graphite-900">
                 {brand.name}
@@ -59,11 +59,6 @@ export default function Footer() {
                   </Link>
                 </li>
               ))}
-              <li>
-                <Link href="/nosecut" className="hover:text-graphite-900">
-                  Ноускаты
-                </Link>
-              </li>
             </ul>
           </div>
 

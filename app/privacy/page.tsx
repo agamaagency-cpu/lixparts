@@ -42,7 +42,7 @@ export default function PrivacyPage() {
       <Breadcrumbs
         items={[{ label: "Главная", href: "/" }, { label: "Политика конфиденциальности" }]}
       />
-      <div className="mx-auto mt-8 max-w-3xl">
+      <div className="mx-auto mt-8 max-w-2xl">
         <h1 className="text-3xl font-semibold tracking-tight text-graphite-900 sm:text-4xl">
           Политика конфиденциальности
         </h1>
@@ -51,11 +51,11 @@ export default function PrivacyPage() {
           {sections.map((s) => (
             <section key={s.h}>
               <h2 className="text-lg font-semibold text-graphite-900">{s.h}</h2>
-              <p className="mt-2 text-sm leading-relaxed text-graphite-500">{s.p}</p>
+              <p className="mt-2 max-w-[65ch] text-sm leading-relaxed text-graphite-500">{s.p}</p>
             </section>
           ))}
         </div>
-        <p className="mt-10 rounded-xl border border-graphite-200 bg-graphite-50 p-4 text-xs text-graphite-400">
+        <p className="mt-10 max-w-[60ch] rounded-xl border border-graphite-200 bg-graphite-50 p-4 text-xs text-graphite-500">
           Это типовой шаблон политики конфиденциальности. Перед публикацией отредактируйте
           его под ваши реальные реквизиты и требования законодательства.
         </p>
