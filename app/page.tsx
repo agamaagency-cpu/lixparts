@@ -30,7 +30,6 @@ import {
   ShieldIcon,
   SparkIcon,
   TagIcon,
-  TelegramGlyph,
   TruckIcon,
   WhatsAppGlyph,
 } from "@/components/Icons";
@@ -469,7 +468,6 @@ function HomeContacts() {
   const rows = [
     { icon: PhoneIcon, label: "Телефон", value: contacts.phone, href: contacts.phoneHref },
     { icon: WhatsAppGlyph, label: "WhatsApp", value: contacts.whatsapp, href: contacts.whatsappHref },
-    { icon: TelegramGlyph, label: "Telegram", value: contacts.telegram, href: contacts.telegramHref },
     { icon: InstagramGlyph, label: "Instagram", value: contacts.instagram, href: contacts.instagramHref },
     { icon: MapPin, label: "Адрес", value: contacts.address, href: contacts.twoGisHref },
     { icon: ClockIcon, label: "График работы", value: contacts.hours },

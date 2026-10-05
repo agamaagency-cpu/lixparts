@@ -10,7 +10,6 @@ import {
   InstagramGlyph,
   MapPin,
   PhoneIcon,
-  TelegramGlyph,
   WhatsAppGlyph,
 } from "@/components/Icons";
 
@@ -25,7 +24,6 @@ export default function ContactsPage() {
   const rows = [
     { icon: PhoneIcon, label: "Телефон", value: contacts.phone, href: contacts.phoneHref },
     { icon: WhatsAppGlyph, label: "WhatsApp", value: contacts.whatsapp, href: contacts.whatsappHref },
-    { icon: TelegramGlyph, label: "Telegram", value: contacts.telegram, href: contacts.telegramHref },
     { icon: InstagramGlyph, label: "Instagram", value: contacts.instagram, href: contacts.instagramHref },
     { icon: MailIcon, label: "Почта", value: contacts.email, href: contacts.emailHref },
     { icon: MapPin, label: "Адрес", value: contacts.address, href: contacts.twoGisHref },

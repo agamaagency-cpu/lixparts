@@ -4,7 +4,6 @@ import {
   InstagramGlyph,
   MailIcon, MapPin,
   PhoneIcon,
-  TelegramGlyph,
   WhatsAppGlyph,
 } from "./Icons";
 
@@ -34,13 +33,6 @@ export default function Footer() {
                 className="flex h-9 w-9 items-center justify-center rounded-full bg-white text-graphite-600 ring-1 ring-graphite-200 hover:text-graphite-900"
               >
                 <WhatsAppGlyph width={18} height={18} />
-              </a>
-              <a
-                href={contacts.telegramHref}
-                aria-label="Telegram"
-                className="flex h-9 w-9 items-center justify-center rounded-full bg-white text-graphite-600 ring-1 ring-graphite-200 hover:text-graphite-900"
-              >
-                <TelegramGlyph width={18} height={18} />
               </a>
               <a
                 href={contacts.instagramHref}
