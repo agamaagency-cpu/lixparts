@@ -2,7 +2,7 @@ import Link from "next/link";
 import { brand, contacts, models } from "@/lib/data";
 import {
   InstagramGlyph,
-  MapPin,
+  MailIcon, MapPin,
   PhoneIcon,
   TelegramGlyph,
   WhatsAppGlyph,
@@ -94,8 +94,12 @@ export default function Footer() {
                 <a href={contacts.phoneHref} className="hover:text-graphite-900">{contacts.phone}</a>
               </li>
               <li className="flex items-start gap-2.5">
+                <MailIcon width={17} height={17} className="mt-0.5 shrink-0 text-graphite-400" />
+                <a href={contacts.emailHref} className="hover:text-graphite-900">{contacts.email}</a>
+              </li>
+              <li className="flex items-start gap-2.5">
                 <MapPin width={17} height={17} className="mt-0.5 shrink-0 text-graphite-400" />
-                <span>{contacts.address}</span>
+                <a href={contacts.twoGisHref} target="_blank" rel="noopener noreferrer" className="hover:text-graphite-900">{contacts.address}</a>
               </li>
               <li className="text-graphite-400">{contacts.hours}</li>
             </ul>

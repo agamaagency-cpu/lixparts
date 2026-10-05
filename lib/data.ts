@@ -491,9 +491,13 @@ export const contacts = {
   telegramHref: "https://t.me/liauto_parts",
   instagram: "@liauto.parts",
   instagramHref: "https://instagram.com/liauto.parts",
-  address: "г. Москва, ул. Примерная, 1 (уточняется)",
-  hours: "Пн–Сб: 10:00 – 19:00 · Вс: по договорённости",
-  email: "info@liauto-parts.example",
+  address: "г. Алматы, ул. Биокомбинатская, 7А, каб. 101",
+  hours: "Пн–Пт: 09:00 – 19:00 · Сб–Вс: 10:00 – 17:00",
+  email: "rsautopartkz@gmail.com",
+  emailHref: "mailto:rsautopartkz@gmail.com",
+  geo: { lat: 43.237934, lon: 76.911525 },
+  twoGisFirmId: "70000001117791258",
+  twoGisHref: "https://2gis.kz/almaty/firm/70000001117791258",
 };
 
 export const brand = {

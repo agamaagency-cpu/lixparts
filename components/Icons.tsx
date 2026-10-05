@@ -64,6 +64,13 @@ export const PhoneIcon = (p: IconProps) => (
   </svg>
 );
 
+export const MailIcon = (p: IconProps) => (
+  <svg {...base(p)}>
+    <rect x="3" y="5" width="18" height="14" rx="2" />
+    <path d="m3.5 6.5 8.5 6.5 8.5-6.5" />
+  </svg>
+);
+
 export const MapPin = (p: IconProps) => (
   <svg {...base(p)}>
     <path d="M12 21s7-5.7 7-11a7 7 0 1 0-14 0c0 5.3 7 11 7 11Z" />

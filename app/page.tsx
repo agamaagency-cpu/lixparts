@@ -14,6 +14,7 @@ import CategoryGrid from "@/components/CategoryGrid";
 import ComparisonTable from "@/components/ComparisonTable";
 import FAQ from "@/components/FAQ";
 import Gallery from "@/components/Gallery";
+import Map2GIS from "@/components/Map2GIS";
 import LeadForm from "@/components/LeadForm";
 import ProductCard from "@/components/ProductCard";
 import {
@@ -470,7 +471,7 @@ function HomeContacts() {
     { icon: WhatsAppGlyph, label: "WhatsApp", value: contacts.whatsapp, href: contacts.whatsappHref },
     { icon: TelegramGlyph, label: "Telegram", value: contacts.telegram, href: contacts.telegramHref },
     { icon: InstagramGlyph, label: "Instagram", value: contacts.instagram, href: contacts.instagramHref },
-    { icon: MapPin, label: "Адрес", value: contacts.address },
+    { icon: MapPin, label: "Адрес", value: contacts.address, href: contacts.twoGisHref },
     { icon: ClockIcon, label: "График работы", value: contacts.hours },
   ];
   return (
@@ -504,18 +505,7 @@ function HomeContacts() {
               );
             })}
           </div>
-          <div className="overflow-hidden rounded-2xl border border-graphite-200 bg-white">
-            <div className="relative flex h-full min-h-[300px] items-center justify-center bg-graphite-100">
-              <div className="absolute inset-0 grid-pattern opacity-60" />
-              <div className="relative text-center">
-                <MapPin width={32} height={32} className="mx-auto text-graphite-400" />
-                <p className="mt-3 text-sm font-medium text-graphite-600">
-                  Карта появится здесь
-                </p>
-                <p className="mt-1 text-xs text-graphite-400">{contacts.address}</p>
-              </div>
-            </div>
-          </div>
+          <Map2GIS height={320} />
         </div>
       </div>
     </section>

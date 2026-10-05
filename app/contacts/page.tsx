@@ -1,10 +1,12 @@
 import type { Metadata } from "next";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import LeadForm from "@/components/LeadForm";
+import Map2GIS from "@/components/Map2GIS";
 import { SectionHeading } from "@/components/ui";
 import { contacts } from "@/lib/data";
 import {
   ClockIcon,
+  MailIcon,
   InstagramGlyph,
   MapPin,
   PhoneIcon,
@@ -15,7 +17,7 @@ import {
 export const metadata: Metadata = {
   title: "Контакты",
   description:
-    "Свяжитесь с нами: телефон, WhatsApp, Telegram, Instagram, адрес и график работы. Поможем подобрать запчасти Li Auto L6, L7, L9.",
+    "RS Auto Parts в Алматы: Биокомбинатская, 7А. Телефон и WhatsApp +7 747 411 69 02, почта, график работы и карта 2ГИС. Поможем подобрать запчасти Li Auto L6, L7, L9.",
   alternates: { canonical: "/contacts" },
 };
 
@@ -25,7 +27,8 @@ export default function ContactsPage() {
     { icon: WhatsAppGlyph, label: "WhatsApp", value: contacts.whatsapp, href: contacts.whatsappHref },
     { icon: TelegramGlyph, label: "Telegram", value: contacts.telegram, href: contacts.telegramHref },
     { icon: InstagramGlyph, label: "Instagram", value: contacts.instagram, href: contacts.instagramHref },
-    { icon: MapPin, label: "Адрес", value: contacts.address },
+    { icon: MailIcon, label: "Почта", value: contacts.email, href: contacts.emailHref },
+    { icon: MapPin, label: "Адрес", value: contacts.address, href: contacts.twoGisHref },
     { icon: ClockIcon, label: "График работы", value: contacts.hours },
   ];
 
@@ -68,17 +71,8 @@ export default function ContactsPage() {
             })}
           </div>
 
-          <div className="mt-4 overflow-hidden rounded-2xl border border-graphite-200">
-            <div className="relative flex min-h-[260px] items-center justify-center bg-graphite-100">
-              <div className="absolute inset-0 grid-pattern opacity-60" />
-              <div className="relative text-center">
-                <MapPin width={32} height={32} className="mx-auto text-graphite-400" />
-                <p className="mt-3 text-sm font-medium text-graphite-600">
-                  Здесь будет интерактивная карта
-                </p>
-                <p className="mt-1 text-xs text-graphite-400">{contacts.address}</p>
-              </div>
-            </div>
+          <div className="mt-4">
+            <Map2GIS />
           </div>
         </div>
 
