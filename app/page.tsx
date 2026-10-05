@@ -4,6 +4,7 @@ import {
   contacts,
   faqs,
   getFeaturedProducts,
+  getGalleryPhotos,
   models,
   popularCategorySlugs,
 } from "@/lib/data";
@@ -81,16 +82,8 @@ const steps = [
   { n: "05", title: "Выдача или доставка", text: "Организуем удобный способ получения." },
 ];
 
-const galleryItems = [
-  { label: "Склад деталей", sub: "Li Auto" },
-  { label: "Двери разных цветов", sub: "L7 / L9" },
-  { label: "Передние бамперы", sub: "L6" },
-  { label: "Капоты", sub: "L9" },
-  { label: "Крылья", sub: "L7" },
-  { label: "Радиаторы", sub: "Cooling" },
-  { label: "Зеркала High Config", sub: "L9" },
-  { label: "Упаковка и отправка", sub: "Logistics" },
-];
+// Галерея на главной — реальные фото со склада (с маркировкой RS AutoParts)
+const galleryItems = getGalleryPhotos(8);
 
 const trustFacts = [
   { icon: CameraIcon, title: "Реальные фотографии", text: "Показываем каждую деталь до покупки." },

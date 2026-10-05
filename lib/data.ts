@@ -77,6 +77,9 @@ export const categoryGroups: CategoryGroup[] = [
       "right-rear-light",
       "left-rear-bumper-light",
       "right-rear-bumper-light",
+      "left-front-turn",
+      "right-front-turn",
+      "drl",
       "reflectors",
     ],
   },
@@ -84,6 +87,8 @@ export const categoryGroups: CategoryGroup[] = [
     slug: "mirrors",
     title: "Зеркала",
     categories: [
+      "left-mirror",
+      "right-mirror",
       "left-mirror-high",
       "right-mirror-high",
       "left-mirror-low",
@@ -93,12 +98,12 @@ export const categoryGroups: CategoryGroup[] = [
   {
     slug: "liners",
     title: "Подкрылки",
-    categories: ["left-fender-liner", "right-fender-liner"],
+    categories: ["fender-liners", "left-fender-liner", "right-fender-liner"],
   },
   {
     slug: "cooling",
     title: "Система охлаждения",
-    categories: ["radiator", "ac-radiator", "fan", "fan-shroud"],
+    categories: ["radiator", "grille-shutter", "ac-radiator", "fan", "fan-shroud"],
   },
   {
     slug: "reinforcements",
@@ -108,7 +113,7 @@ export const categoryGroups: CategoryGroup[] = [
   {
     slug: "misc",
     title: "Дополнительно",
-    categories: ["door-handles", "plastic-parts", "wiring", "nosecut"],
+    categories: ["door-handles", "hood-lock", "plastic-parts", "wiring", "nosecut"],
   },
 ];
 
@@ -132,17 +137,24 @@ export const categories: Category[] = [
   { slug: "right-rear-light", name: "Правый задний фонарь", nameEn: "Right Rear Light", group: "optics", icon: "light" },
   { slug: "left-rear-bumper-light", name: "Левая подсветка бампера", nameEn: "Left Rear Bumper Light", group: "optics", icon: "light" },
   { slug: "right-rear-bumper-light", name: "Правая подсветка бампера", nameEn: "Right Rear Bumper Light", group: "optics", icon: "light" },
+  { slug: "left-front-turn", name: "Передний левый поворотник", nameEn: "Front Left Turn Signal", group: "optics", icon: "light" },
+  { slug: "right-front-turn", name: "Передний правый поворотник", nameEn: "Front Right Turn Signal", group: "optics", icon: "light" },
+  { slug: "drl", name: "ДХО (монобровь)", nameEn: "Daytime Running Light", group: "optics", icon: "light" },
   { slug: "reflectors", name: "Катафоты", nameEn: "Reflectors", group: "optics", icon: "light" },
   // Зеркала
+  { slug: "left-mirror", name: "Левое зеркало", nameEn: "Left Rearview Mirror", group: "mirrors", icon: "mirror" },
+  { slug: "right-mirror", name: "Правое зеркало", nameEn: "Right Rearview Mirror", group: "mirrors", icon: "mirror" },
   { slug: "left-mirror-high", name: "Левое зеркало High Config", nameEn: "Left Rearview Mirror High Config", group: "mirrors", icon: "mirror" },
   { slug: "right-mirror-high", name: "Правое зеркало High Config", nameEn: "Right Rearview Mirror High Config", group: "mirrors", icon: "mirror" },
   { slug: "left-mirror-low", name: "Левое зеркало Low Config", nameEn: "Left Rearview Mirror Low Config", group: "mirrors", icon: "mirror" },
   { slug: "right-mirror-low", name: "Правое зеркало Low Config", nameEn: "Right Rearview Mirror Low Config", group: "mirrors", icon: "mirror" },
   // Подкрылки
+  { slug: "fender-liners", name: "Подкрылки (комплект)", nameEn: "Fender Liners Set", group: "liners", icon: "liner" },
   { slug: "left-fender-liner", name: "Левый подкрылок", nameEn: "Left Fender Liner", group: "liners", icon: "liner" },
   { slug: "right-fender-liner", name: "Правый подкрылок", nameEn: "Right Fender Liner", group: "liners", icon: "liner" },
   // Охлаждение
   { slug: "radiator", name: "Радиатор охлаждения", nameEn: "Cooling Radiator", group: "cooling", icon: "radiator" },
+  { slug: "grille-shutter", name: "Жалюзи радиатора", nameEn: "Active Grille Shutter", group: "cooling", icon: "radiator" },
   { slug: "ac-radiator", name: "Радиатор кондиционера", nameEn: "A/C Radiator", group: "cooling", icon: "radiator" },
   { slug: "fan", name: "Вентилятор охлаждения", nameEn: "Cooling Fan", group: "cooling", icon: "fan" },
   { slug: "fan-shroud", name: "Диффузор вентилятора", nameEn: "Fan Shroud", group: "cooling", icon: "fan" },
@@ -152,6 +164,7 @@ export const categories: Category[] = [
   { slug: "brackets", name: "Кронштейны и крепления", nameEn: "Brackets", group: "reinforcements", icon: "bracket" },
   // Прочее
   { slug: "door-handles", name: "Ручки дверей", nameEn: "Door Handles", group: "misc", icon: "handle" },
+  { slug: "hood-lock", name: "Замок капота", nameEn: "Hood Latch", group: "misc", icon: "bracket" },
   { slug: "plastic-parts", name: "Пластиковые элементы", nameEn: "Plastic Parts", group: "misc", icon: "plastic" },
   { slug: "wiring", name: "Проводка и разъёмы", nameEn: "Wiring & Connectors", group: "misc", icon: "wiring" },
   { slug: "nosecut", name: "Ноускат (Nosecut)", nameEn: "Nosecut", group: "misc", icon: "nosecut" },
@@ -172,10 +185,10 @@ export const popularCategorySlugs = [
   "left-front-door",
   "hood",
   "left-fender",
-  "left-mirror-high",
+  "left-mirror",
   "left-headlight",
   "radiator",
-  "fan",
+  "front-frame",
   "nosecut",
 ];
 
@@ -324,8 +337,11 @@ const demoProducts: Product[] = (() => {
  */
 const sheetProducts = generatedProducts as unknown as Product[];
 
-export const products: Product[] =
-  sheetProducts.length > 0 ? sheetProducts : demoProducts;
+// Сначала позиции с реальными фото, потом «по запросу» без фото (порядок внутри групп — как в таблице)
+export const products: Product[] = (sheetProducts.length > 0 ? sheetProducts : demoProducts)
+  .map((p, i) => ({ p, i }))
+  .sort((a, b) => Number(!!b.p.images?.length) - Number(!!a.p.images?.length) || a.i - b.i)
+  .map(({ p }) => p);
 
 /** true, если каталог собран из таблицы, а не из демо-данных. */
 export const catalogFromSheet = sheetProducts.length > 0;
@@ -334,19 +350,50 @@ export function getProductsByModel(model: string): Product[] {
   return products.filter((p) => p.model === model);
 }
 
-/** Список slug категорий, для которых у модели есть демо-товар (для статических путей). */
-export function seedCategorySlugsForModel(model: string): string[] {
-  return Array.from(
-    new Set(products.filter((p) => p.model === model).map((p) => p.categorySlug))
-  );
+/**
+ * Часть URL товара после модели: slug «l6-rear-bumper-bk» → «rear-bumper-bk».
+ * Карточка живёт по адресу /catalog/<model>/<эта часть>.
+ */
+export function productPathSlug(p: Product): string {
+  const prefix = `${p.model}-`;
+  return p.slug.startsWith(prefix) ? p.slug.slice(prefix.length) : p.slug;
 }
 
-export function getProductBySlug(model: string, category: string): Product | undefined {
-  return products.find((p) => p.model === model && p.categorySlug === category);
+export function productHref(p: Product): string {
+  return `/catalog/${p.model}/${productPathSlug(p)}`;
 }
 
+/** Все URL-слаги товаров модели (для статических путей). */
+export function productPathSlugsForModel(model: string): string[] {
+  return products.filter((p) => p.model === model).map(productPathSlug);
+}
+
+export function getProductBySlug(model: string, pathSlug: string): Product | undefined {
+  return products.find((p) => p.model === model && productPathSlug(p) === pathSlug);
+}
+
+/** Для главной: сначала отмеченные «На главную» с фото и ценой, потом остальные с фото. */
 export function getFeaturedProducts(limit = 8): Product[] {
-  return products.filter((p) => p.status === "in_stock").slice(0, limit);
+  const live = products.filter((p) => p.status === "in_stock");
+  const score = (p: Product) =>
+    (p.featured ? 4 : 0) + (p.images?.length ? 2 : 0) + (p.price ? 1 : 0);
+  return [...live].sort((a, b) => score(b) - score(a)).slice(0, limit);
+}
+
+/** Фото для галереи на главной: по одному кадру с разных товаров. */
+export function getGalleryPhotos(limit = 8): { src: string; label: string; sub: string }[] {
+  const pool = products.filter((p) => p.images?.length && p.featured);
+  // по очереди L6 → L7 → L9, чтобы галерея не состояла из одной модели
+  const byModel = models.map((m) => pool.filter((p) => p.model === m.slug));
+  const picked: Product[] = [];
+  for (let i = 0; picked.length < limit && byModel.some((l) => l[i]); i++)
+    for (const l of byModel) if (l[i] && picked.length < limit) picked.push(l[i]);
+  return picked
+    .map((p) => ({
+      src: p.images![0],
+      label: p.name,
+      sub: `${getModel(p.model)?.short ?? ""}${p.color ? " · " + p.color : ""}`,
+    }));
 }
 
 export const statusLabels: Record<Product["status"], string> = {

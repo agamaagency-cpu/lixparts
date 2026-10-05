@@ -56,6 +56,7 @@ function parseCsv(text) {
 const MODEL = { "li auto l6": "l6", "li auto l7": "l7", "li auto l9": "l9", l6: "l6", l7: "l7", l9: "l9" };
 const STATUS = { "в наличии": "in_stock", "под заказ": "on_order", "продано": "sold" };
 const SIDE = { "перед": "front", "зад": "rear", "лево": "left", "право": "right", "—": "none", "-": "none", "": "none" };
+const HEX = { "чёрный": "#1a1a1c", "черный": "#1a1a1c", "белый": "#f2f3f4", "серебристый": "#c7ccd1", "серый": "#7d838a", "синий": "#2b4a7a", "зелёный": "#3c5647" };
 const YES = new Set(["да", "yes", "true", "1", "+"]);
 
 const norm = (s) => String(s ?? "").trim();
@@ -112,13 +113,18 @@ const idx = {
   featured: col("на главную"),
 };
 
-const valid = new Set(
-  readFileSync(join(root, "lib/data.ts"), "utf8")
-    .split("\n")
-    .filter((l) => l.includes("slug:") && l.includes("group:"))
-    .map((l) => l.match(/slug:\s*"([^"]+)"/)?.[1])
-    .filter(Boolean)
+const catLines = readFileSync(join(root, "lib/data.ts"), "utf8")
+  .split("\n")
+  .filter((l) => l.includes("slug:") && l.includes("group:"));
+const valid = new Set(catLines.map((l) => l.match(/slug:\s*"([^"]+)"/)?.[1]).filter(Boolean));
+// русское имя категории → slug: спасает, если формула category_slug в таблице не нашла категорию
+const byCatName = new Map(
+  catLines
+    .map((l) => [l.match(/name:\s*"([^"]+)"/)?.[1], l.match(/slug:\s*"([^"]+)"/)?.[1]])
+    .filter(([n, s]) => n && s)
+    .map(([n, s]) => [low(n), s])
 );
+idx.categoryName = col("категория");
 
 const products = [];
 const warnings = [];
@@ -133,25 +139,46 @@ for (let r = headIdx + 1; r < rows.length; r++) {
 
   const line = r + 1;
   const model = MODEL[low(at(idx.model))];
-  const categorySlug = at(idx.categorySlug);
+  let categorySlug = at(idx.categorySlug);
+  if (!valid.has(categorySlug)) categorySlug = byCatName.get(low(at(idx.categoryName))) ?? categorySlug;
   if (!model) { warnings.push(`строка ${line} (${sku}): непонятная модель «${at(idx.model)}» — пропущена`); continue; }
-  if (!valid.has(categorySlug)) { warnings.push(`строка ${line} (${sku}): категория «${at(idx.categorySlug) || "—"}» не найдена в каталоге — пропущена`); continue; }
+  if (!valid.has(categorySlug)) { warnings.push(`строка ${line} (${sku}): категория «${at(idx.categoryName) || at(idx.categorySlug) || "—"}» не найдена в каталоге — пропущена`); continue; }
 
-  let slug = `${model}-${categorySlug}`;
+  // URL: /catalog/<model>/<category>[-<хвост SKU>]. LX-L6-RBUMP-BK → l6-rear-bumper-bk
+  const tail = sku.split("-").slice(3).join("-").toLowerCase().replace(/[^a-z0-9-]/g, "");
+  let slug = `${model}-${categorySlug}${tail ? "-" + tail : ""}`;
   const seen = (usedSlugs.get(slug) ?? 0) + 1;
   usedSlugs.set(slug, seen);
   if (seen > 1) slug = `${slug}-${seen}`;
 
-  const images = at(idx.images).split(/[,\s]+/).map((s) => s.trim()).filter((s) => /^https?:\/\//.test(s));
+  // фото: полные ссылки или пути сайта /parts/l6/xxx.jpg (файлы в public/)
+  // короткая запись серии: /parts/l6/li-auto-l6-kapot-rs-autoparts-01..03.jpg → 01, 02, 03
+  const expand = (s) => {
+    const m = s.match(/^(.*-)(\d+)\.\.(\d+)(\.\w+)$/);
+    if (!m) return [s];
+    const [, pre, a, b, ext] = m;
+    const out = [];
+    for (let n = Number(a); n <= Number(b); n++) out.push(`${pre}${String(n).padStart(a.length, "0")}${ext}`);
+    return out;
+  };
+  const images = at(idx.images)
+    .split(/[,\s]+/)
+    .map((s) => s.trim())
+    .filter((s) => /^(https?:\/\/|\/)/.test(s))
+    .flatMap(expand);
 
   const name = at(idx.name) || sku;
   const condition = at(idx.condition) || "Отличное";
+  const color = at(idx.color);
   const paintReady = isYes(at(idx.paintReady));
   const modelName = { l6: "Li Auto L6", l7: "Li Auto L7", l9: "Li Auto L9" }[model];
   const description =
     at(idx.description) ||
-    `${name} для ${modelName}. Оригинальная деталь OEM. Состояние — ${condition.toLowerCase()}` +
-      (paintReady ? "; при совпадении цвета ставится без покраски." : ".");
+    `${name} для ${modelName}. Оригинальная деталь OEM` +
+      (color ? `, цвет — ${color.toLowerCase()}, родной заводской окрас` : "") +
+      `. Состояние — ${condition.toLowerCase()}` +
+      (paintReady ? "; при совпадении цвета ставится без покраски." : ".") +
+      (images.length ? " На фото — именно эта деталь." : "");
 
   products.push({
     id: sku,
@@ -160,8 +187,8 @@ for (let r = headIdx + 1; r < rows.length; r++) {
     categorySlug,
     model,
     condition,
-    color: at(idx.color),
-    colorHex: at(idx.hex) || undefined,
+    color,
+    colorHex: at(idx.hex) || HEX[low(color)] || undefined,
     sku,
     price: num(at(idx.price)),
     status: STATUS[low(at(idx.status))] ?? "in_stock",

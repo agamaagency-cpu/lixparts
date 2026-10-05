@@ -8,7 +8,8 @@ import {
   getProductBySlug,
   getProductsByModel,
   models,
-  seedCategorySlugsForModel,
+  productHref,
+  productPathSlugsForModel,
 } from "@/lib/data";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import ProductDetail from "@/components/ProductDetail";
@@ -18,8 +19,8 @@ import { SectionHeading } from "@/components/ui";
 export function generateStaticParams() {
   const out: { model: string; category: string }[] = [];
   for (const m of models) {
-    for (const cat of seedCategorySlugsForModel(m.slug)) {
-      out.push({ model: m.slug, category: cat });
+    for (const slug of productPathSlugsForModel(m.slug)) {
+      out.push({ model: m.slug, category: slug });
     }
   }
   return out;
@@ -33,10 +34,13 @@ export function generateMetadata({
   const model = getModel(params.model);
   const product = getProductBySlug(params.model, params.category);
   if (!model || !product) return {};
+  const color = product.color ? `, ${product.color.toLowerCase()}` : "";
+  const price = product.price ? ` Цена ${product.price.toLocaleString("ru-RU")} ₸.` : "";
   return {
-    title: `${product.name} для ${model.name}`,
-    description: `${product.name} для ${model.name} — оригинальная OEM деталь. Состояние: ${product.condition}, цвет: ${product.color}. ${product.status === "in_stock" ? "В наличии." : "Под заказ."} Реальные фото и подбор по VIN.`,
-    alternates: { canonical: `/catalog/${model.slug}/${params.category}` },
+    title: `${product.name}${color} для ${model.name}`,
+    description: `${product.name} для ${model.name} — оригинальная OEM деталь. Состояние: ${product.condition.toLowerCase()}${color}. ${product.status === "in_stock" ? "В наличии в Алматы." : "Под заказ."}${price} Реальные фото и подбор по VIN.`,
+    alternates: { canonical: productHref(product) },
+    openGraph: product.images?.length ? { images: [product.images[0]] } : undefined,
   };
 }
 
@@ -47,13 +51,16 @@ export default function ProductPage({
 }) {
   const model = getModel(params.model);
   const product = getProductBySlug(params.model, params.category);
-  const category = getCategory(params.category);
-  const group = getGroupForCategory(params.category);
   if (!model || !product) notFound();
+  const category = getCategory(product.categorySlug);
+  const group = getGroupForCategory(product.categorySlug);
 
-  const related = getProductsByModel(model.slug)
-    .filter((p) => p.categorySlug !== product.categorySlug)
-    .slice(0, 4);
+  // сначала другие цвета/варианты этой же детали, потом остальное с фото
+  const others = getProductsByModel(model.slug).filter((p) => p.id !== product.id);
+  const related = [
+    ...others.filter((p) => p.categorySlug === product.categorySlug),
+    ...others.filter((p) => p.categorySlug !== product.categorySlug && p.images?.length),
+  ].slice(0, 4);
 
   return (
     <div className="container-x py-8 sm:py-10">

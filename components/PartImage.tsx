@@ -1,9 +1,8 @@
 import { CameraIcon } from "./Icons";
 
 /**
- * Премиальный плейсхолдер изображения детали.
- * Заменяется на реальные фото простой подстановкой <img src=... />.
- * Пока даёт аккуратный «студийный» фон, чтобы каталог не выглядел пустым.
+ * Изображение детали. Если есть src — реальное фото (с маркировкой RS AutoParts),
+ * иначе аккуратный «студийный» плейсхолдер, чтобы каталог не выглядел пустым.
  */
 export default function PartImage({
   label,
@@ -12,6 +11,9 @@ export default function PartImage({
   className = "",
   ratio = "aspect-[4/3]",
   big = false,
+  src,
+  fit = "cover",
+  eager = false,
 }: {
   label: string;
   sub?: string;
@@ -19,7 +21,28 @@ export default function PartImage({
   className?: string;
   ratio?: string;
   big?: boolean;
+  src?: string;
+  fit?: "cover" | "contain";
+  eager?: boolean;
 }) {
+  if (src) {
+    return (
+      <div className={`relative overflow-hidden bg-graphite-100 ${ratio} ${className}`}>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={src}
+          alt={sub ? `${label} — ${sub}` : label}
+          loading={eager ? "eager" : "lazy"}
+          decoding="async"
+          draggable={false}
+          className={`absolute inset-0 h-full w-full select-none ${
+            fit === "contain" ? "object-contain" : "object-cover"
+          }`}
+        />
+      </div>
+    );
+  }
+
   const tones = [
     "from-graphite-100 to-graphite-200",
     "from-graphite-50 to-graphite-100",

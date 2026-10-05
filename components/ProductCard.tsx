@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { contacts, getModel } from "@/lib/data";
+import { contacts, getModel, productHref } from "@/lib/data";
 import type { Product } from "@/lib/types";
 import PartImage from "./PartImage";
 import { useStore } from "./StoreProvider";
@@ -17,7 +17,7 @@ export default function ProductCard({
 }) {
   const { isFavorite, toggleFavorite, isComparing, toggleCompare } = useStore();
   const model = getModel(product.model);
-  const href = `/catalog/${product.model}/${product.categorySlug}`;
+  const href = productHref(product);
   const fav = isFavorite(product.id);
   const cmp = isComparing(product.id);
 
@@ -31,14 +31,20 @@ export default function ProductCard({
         <Link href={href} className="block">
           <PartImage
             label={product.name}
-            sub={model?.short}
+            sub={[model?.short, product.color].filter(Boolean).join(" · ")}
             tone={index}
             ratio="aspect-[4/3]"
+            src={product.images?.[0]}
           />
         </Link>
         <div className="absolute left-3 top-3">
           <StatusBadge status={product.status} />
         </div>
+        {product.images && product.images.length > 1 && (
+          <span className="absolute bottom-3 left-3 rounded-full bg-black/55 px-2 py-0.5 text-[11px] font-medium text-white">
+            {product.images.length} фото
+          </span>
+        )}
         <div className="absolute right-3 top-3 flex flex-col gap-1.5 opacity-0 transition-opacity duration-200 group-hover:opacity-100">
           <button
             onClick={() => toggleFavorite(product.id)}
@@ -78,13 +84,15 @@ export default function ProductCard({
         </Link>
 
         <div className="mt-3 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-graphite-500">
-          <span className="inline-flex items-center gap-1.5">
-            <span
-              className="h-3 w-3 rounded-full ring-1 ring-graphite-200"
-              style={{ background: product.colorHex }}
-            />
-            {product.color}
-          </span>
+          {product.color && (
+            <span className="inline-flex items-center gap-1.5">
+              <span
+                className="h-3 w-3 rounded-full ring-1 ring-graphite-200"
+                style={{ background: product.colorHex }}
+              />
+              {product.color}
+            </span>
+          )}
           <span>{product.condition}</span>
         </div>
 

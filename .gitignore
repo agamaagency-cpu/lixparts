@@ -24,3 +24,20 @@ scripts/sheet-url.txt
 
 # артефакт tsc
 tsconfig.tsbuildinfo
+
+# прайсы для клиентов
+price/
+
+# внутренние файлы Agama (не для репозитория клиента)
+CLAUDE.md
+Starter/
+RS_*.md
+
+# рабочие материалы (фото-исходники, архивы, выгрузки Claude, договоры)
+Claude outputs/
+Фото */
+*.zip
+*.textClipping
+Договоры/
+rs_photos.py
+*.command

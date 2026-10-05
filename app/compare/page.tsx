@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { getModel, products } from "@/lib/data";
+import { getModel, productHref, products } from "@/lib/data";
 import { useStore } from "@/components/StoreProvider";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import PartImage from "@/components/PartImage";
@@ -85,10 +85,10 @@ export default function ComparePage() {
                       >
                         <CloseIcon width={16} height={16} />
                       </button>
-                      <PartImage label={p.name} sub={getModel(p.model)?.short} tone={i} ratio="aspect-[4/3]" />
+                      <PartImage label={p.name} sub={getModel(p.model)?.short} tone={i} ratio="aspect-[4/3]" src={p.images?.[0]} />
                     </div>
                     <Link
-                      href={`/catalog/${p.model}/${p.categorySlug}`}
+                      href={productHref(p)}
                       className="mt-3 block text-left text-sm font-semibold text-graphite-900 hover:underline"
                     >
                       {p.name}

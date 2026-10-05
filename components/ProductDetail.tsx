@@ -22,12 +22,16 @@ export default function ProductDetail({ product }: { product: Product }) {
   const cmp = isComparing(product.id);
   const [activeImg, setActiveImg] = useState(0);
 
-  const images = [
-    { label: product.name, sub: "Основное фото" },
-    { label: product.name, sub: "Ракурс 2" },
-    { label: product.name, sub: "Крепления" },
-    { label: product.name, sub: "Состояние" },
-  ];
+  const photos = product.images ?? [];
+  const images: { label: string; sub: string; src?: string }[] = photos.length
+    ? photos.map((src, i) => ({ label: product.name, sub: `Фото ${i + 1} из ${photos.length}`, src }))
+    : [
+        { label: product.name, sub: "Основное фото" },
+        { label: product.name, sub: "Ракурс 2" },
+        { label: product.name, sub: "Крепления" },
+        { label: product.name, sub: "Состояние" },
+      ];
+  const [zoom, setZoom] = useState(false);
 
   const waText = encodeURIComponent(
     `Здравствуйте! Хочу оформить заявку на: ${product.name} для ${model?.name} (артикул ${product.sku}). Подскажите наличие и стоимость.`
@@ -37,7 +41,7 @@ export default function ProductDetail({ product }: { product: Product }) {
     { label: "Производитель", value: product.manufacturer },
     { label: "Модель", value: model?.name ?? product.model },
     { label: "Расположение", value: product.location },
-    { label: "Цвет", value: product.color },
+    { label: "Цвет", value: product.color || "—" },
     { label: "Состояние", value: product.condition },
     { label: "Артикул", value: product.sku },
   ];
@@ -46,16 +50,67 @@ export default function ProductDetail({ product }: { product: Product }) {
     <div className="grid gap-10 lg:grid-cols-[1.05fr_0.95fr]">
       {/* Галерея */}
       <div>
-        <div className="overflow-hidden rounded-2xl border border-graphite-200">
+        <div
+          className={`relative overflow-hidden rounded-2xl border border-graphite-200 ${
+            images[activeImg].src ? "cursor-zoom-in" : ""
+          }`}
+          onClick={() => images[activeImg].src && setZoom(true)}
+        >
           <PartImage
             label={images[activeImg].label}
             sub={images[activeImg].sub}
             tone={activeImg}
             ratio="aspect-[4/3]"
             big
+            src={images[activeImg].src}
+            fit="contain"
+            eager
           />
+          {images.length > 1 && images[activeImg].src && (
+            <>
+              <button
+                type="button"
+                aria-label="Предыдущее фото"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setActiveImg((activeImg - 1 + images.length) % images.length);
+                }}
+                className="absolute left-3 top-1/2 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-white/85 text-xl text-graphite-800 shadow hover:bg-white"
+              >
+                ‹
+              </button>
+              <button
+                type="button"
+                aria-label="Следующее фото"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setActiveImg((activeImg + 1) % images.length);
+                }}
+                className="absolute right-3 top-1/2 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-white/85 text-xl text-graphite-800 shadow hover:bg-white"
+              >
+                ›
+              </button>
+              <span className="absolute bottom-3 right-3 rounded-full bg-black/55 px-2.5 py-0.5 text-xs font-medium text-white">
+                {activeImg + 1} / {images.length}
+              </span>
+            </>
+          )}
         </div>
-        <div className="mt-3 grid grid-cols-4 gap-3">
+        {zoom && images[activeImg].src && (
+          <div
+            className="fixed inset-0 z-[60] flex items-center justify-center bg-graphite-950/90 p-4"
+            onClick={() => setZoom(false)}
+          >
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={images[activeImg].src}
+              alt={product.name}
+              className="max-h-full max-w-full select-none rounded-xl object-contain"
+              draggable={false}
+            />
+          </div>
+        )}
+        <div className="mt-3 grid grid-cols-4 gap-3 sm:grid-cols-5">
           {images.map((img, i) => (
             <button
               key={i}
@@ -66,7 +121,7 @@ export default function ProductDetail({ product }: { product: Product }) {
                   : "border-graphite-200 hover:border-graphite-300"
               }`}
             >
-              <PartImage label={img.sub || ""} tone={i} ratio="aspect-square" />
+              <PartImage label={img.sub || ""} tone={i} ratio="aspect-square" src={img.src} />
             </button>
           ))}
         </div>
@@ -102,13 +157,17 @@ export default function ProductDetail({ product }: { product: Product }) {
         {/* Быстрые характеристики */}
         <div className="mt-6 grid grid-cols-2 gap-3">
           <MiniSpec label="Цвет">
-            <span className="flex items-center gap-2">
-              <span
-                className="h-4 w-4 rounded-full ring-1 ring-graphite-200"
-                style={{ background: product.colorHex }}
-              />
-              {product.color}
-            </span>
+            {product.color ? (
+              <span className="flex items-center gap-2">
+                <span
+                  className="h-4 w-4 rounded-full ring-1 ring-graphite-200"
+                  style={{ background: product.colorHex }}
+                />
+                {product.color}
+              </span>
+            ) : (
+              "—"
+            )}
           </MiniSpec>
           <MiniSpec label="Состояние">{product.condition}</MiniSpec>
           <MiniSpec label="Модель">{model?.name}</MiniSpec>

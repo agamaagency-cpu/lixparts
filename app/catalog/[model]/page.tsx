@@ -8,6 +8,7 @@ import {
   getModel,
   getProductsByModel,
   models,
+  productHref,
 } from "@/lib/data";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import CarSilhouette from "@/components/CarSilhouette";
@@ -117,7 +118,11 @@ export default function ModelPage({ params }: { params: { model: string } }) {
         />
         <div className="mt-10 space-y-10">
           {categoryGroups.map((g) => {
-            const cats = categories.filter((c) => g.categories.includes(c.slug));
+            const modelProducts = getProductsByModel(model.slug);
+            const cats = categories.filter(
+              (c) => g.categories.includes(c.slug) && modelProducts.some((p) => p.categorySlug === c.slug)
+            );
+            if (!cats.length) return null;
             return (
               <div key={g.slug}>
                 <div className="mb-4 flex items-center gap-3">
@@ -125,10 +130,16 @@ export default function ModelPage({ params }: { params: { model: string } }) {
                   <span className="h-px flex-1 bg-graphite-200" />
                 </div>
                 <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
-                  {cats.map((c) => (
+                  {cats.map((c) => {
+                    const items = modelProducts.filter((p) => p.categorySlug === c.slug);
+                    const href =
+                      items.length === 1
+                        ? productHref(items[0])
+                        : `/catalog/${model.slug}?category=${c.slug}#catalog`;
+                    return (
                     <Link
                       key={c.slug}
-                      href={`/catalog/${model.slug}/${c.slug}`}
+                      href={href}
                       className="group flex items-center gap-3 rounded-xl border border-graphite-200 bg-white px-4 py-3.5 transition-all hover:border-graphite-300 hover:shadow-soft"
                     >
                       <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-graphite-100 text-graphite-700 transition-colors group-hover:bg-graphite-900 group-hover:text-white">
@@ -138,11 +149,10 @@ export default function ModelPage({ params }: { params: { model: string } }) {
                         <span className="block text-sm font-medium text-graphite-900">
                           {c.name}
                         </span>
-                        {c.nameEn && (
-                          <span className="block text-[11px] uppercase tracking-wide text-graphite-400">
-                            {c.nameEn}
-                          </span>
-                        )}
+                        <span className="block text-[11px] uppercase tracking-wide text-graphite-400">
+                          {items.length > 1 ? `${items.length} ${items.length < 5 ? "варианта" : "вариантов"} · ` : ""}
+                          {items.some((p) => p.images?.length) ? "есть фото" : "по запросу"}
+                        </span>
                       </span>
                       <ArrowRight
                         width={16}
@@ -150,7 +160,8 @@ export default function ModelPage({ params }: { params: { model: string } }) {
                         className="text-graphite-300 transition-all group-hover:translate-x-0.5 group-hover:text-graphite-900"
                       />
                     </Link>
-                  ))}
+                    );
+                  })}
                 </div>
               </div>
             );

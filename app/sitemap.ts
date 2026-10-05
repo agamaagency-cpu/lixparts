@@ -1,5 +1,5 @@
 import type { MetadataRoute } from "next";
-import { models, products } from "@/lib/data";
+import { models, productHref, products } from "@/lib/data";
 import { SITE_URL } from "@/lib/site";
 
 const base = SITE_URL;
@@ -29,10 +29,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
   }));
 
   const productRoutes = products.map((p) => ({
-    url: `${base}/catalog/${p.model}/${p.categorySlug}`,
-    lastModified: new Date("2026-01-01"),
+    url: `${base}${productHref(p)}`,
+    lastModified: new Date("2026-10-06"),
     changeFrequency: "weekly" as const,
     priority: 0.6,
+    ...(p.images?.length ? { images: p.images.map((src) => `${base}${src}`) } : {}),
   }));
 
   return [...staticRoutes, ...modelRoutes, ...productRoutes];

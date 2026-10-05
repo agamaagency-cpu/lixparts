@@ -7,6 +7,7 @@ import { CloseIcon } from "./Icons";
 export interface GalleryItem {
   label: string;
   sub?: string;
+  src?: string;
 }
 
 export default function Gallery({ items }: { items: GalleryItem[] }) {
@@ -33,7 +34,7 @@ export default function Gallery({ items }: { items: GalleryItem[] }) {
             onClick={() => setActive(i)}
             className="group relative overflow-hidden rounded-xl border border-graphite-200 text-left transition-all hover:shadow-card"
           >
-            <PartImage label={item.label} sub={item.sub} tone={i} ratio="aspect-square" />
+            <PartImage label={item.label} sub={item.sub} tone={i} ratio="aspect-square" src={item.src} />
             <span className="absolute inset-x-0 bottom-0 flex items-center justify-between bg-gradient-to-t from-black/40 to-transparent p-3 text-xs font-medium text-white opacity-0 transition-opacity group-hover:opacity-100">
               {item.label}
               <span className="rounded-full bg-white/20 px-2 py-0.5 text-[10px]">
@@ -66,6 +67,9 @@ export default function Gallery({ items }: { items: GalleryItem[] }) {
               tone={active}
               ratio="aspect-[4/3]"
               big
+              src={items[active].src}
+              fit="contain"
+              eager
             />
           </div>
         </div>

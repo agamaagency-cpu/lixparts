@@ -144,5 +144,5 @@ export function Pill({ children }: { children: ReactNode }) {
 
 export function formatPrice(price: number | null): string {
   if (price === null) return "Цена по запросу";
-  return new Intl.NumberFormat("ru-RU").format(price) + " ₽";
+  return new Intl.NumberFormat("ru-RU").format(price) + " ₸";
 }
