@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { contacts, getModel } from "@/lib/data";
+import { contacts, getModel, waLink } from "@/lib/data";
 import type { Product } from "@/lib/types";
 import PartImage from "./PartImage";
 import { useStore } from "./StoreProvider";
@@ -35,8 +35,8 @@ export default function ProductDetail({ product }: { product: Product }) {
       ];
   const [zoom, setZoom] = useState(false);
 
-  const waText = encodeURIComponent(
-    `Здравствуйте! Хочу оформить заявку на: ${product.name} для ${model?.name} (артикул ${product.sku}). Подскажите наличие и стоимость.`
+  const waHref = waLink(
+    `Интересует: ${product.name} для ${model?.name} (артикул ${product.sku}). Подскажите наличие и стоимость.`
   );
 
   const specs = [
@@ -196,7 +196,7 @@ export default function ProductDetail({ product }: { product: Product }) {
           </button>
           <div className="grid grid-cols-2 gap-3">
             <a
-              href={`${contacts.whatsappHref}?text=${waText}`}
+              href={waHref}
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center justify-center gap-2 rounded-full bg-emerald-700 px-4 py-3 text-sm font-medium text-white hover:bg-emerald-800"
@@ -235,9 +235,7 @@ export default function ProductDetail({ product }: { product: Product }) {
             </button>
           </div>
           <a
-            href={`${contacts.whatsappHref}?text=${encodeURIComponent(
-              `Здравствуйте! Пришлите видео детали: ${product.name} (${product.sku}).`
-            )}`}
+            href={waLink(`Пришлите, пожалуйста, видео детали: ${product.name} (${product.sku}).`)}
             target="_blank"
             rel="noopener noreferrer"
             className="mt-1 inline-flex items-center justify-center gap-1.5 text-sm font-medium text-graphite-500 hover:text-graphite-900"

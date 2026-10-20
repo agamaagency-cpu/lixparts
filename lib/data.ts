@@ -449,11 +449,24 @@ export const faqs: { q: string; a: string }[] = [
 /*  КОНТАКТЫ                                                            */
 /* ------------------------------------------------------------------ */
 
+const WA_NUMBER = "77474116902";
+/** Начало каждого сообщения в WhatsApp с сайта: менеджер сразу видит, что клиент с сайта. */
+export const WA_GREETING = "Здравствуйте! Пишу с сайта rsautoparts.kz.";
+
+/**
+ * Ссылка на WhatsApp с готовым текстом. Без аргумента — общее приветствие,
+ * с аргументом — приветствие + суть запроса («Интересует: …»).
+ */
+export function waLink(details?: string): string {
+  const text = details ? `${WA_GREETING} ${details}` : `${WA_GREETING} Подскажите, пожалуйста, по запчастям Li Auto.`;
+  return `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(text)}`;
+}
+
 export const contacts = {
   phone: "+7 (747) 411-69-02",
   phoneHref: "tel:+77474116902",
   whatsapp: "+7 (747) 411-69-02",
-  whatsappHref: "https://wa.me/77474116902",
+  whatsappHref: waLink(),
   instagram: "@rs.autoparts.kz",
   instagramHref: "https://instagram.com/rs.autoparts.kz",
   address: "г. Алматы, ул. Биокомбинатская, 7А, каб. 101",

@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { contacts, getModel, productHref } from "@/lib/data";
+import { getModel, productHref, waLink } from "@/lib/data";
 import type { Product } from "@/lib/types";
 import PartImage from "./PartImage";
 import { useStore } from "./StoreProvider";
@@ -21,8 +21,8 @@ export default function ProductCard({
   const fav = isFavorite(product.id);
   const cmp = isComparing(product.id);
 
-  const waText = encodeURIComponent(
-    `Здравствуйте! Интересует запчасть: ${product.name} для ${model?.name} (артикул ${product.sku}). Подскажите наличие и цену.`
+  const waHref = waLink(
+    `Интересует: ${product.name} для ${model?.name} (артикул ${product.sku}). Подскажите наличие и цену.`
   );
 
   return (
@@ -117,7 +117,7 @@ export default function ProductCard({
             Подробнее
           </Link>
           <a
-            href={`${contacts.whatsappHref}?text=${waText}`}
+            href={waHref}
             target="_blank"
             rel="noopener noreferrer"
             aria-label="Узнать наличие в WhatsApp"
@@ -128,9 +128,7 @@ export default function ProductCard({
         </div>
 
         <a
-          href={`${contacts.whatsappHref}?text=${encodeURIComponent(
-            `Здравствуйте! Пришлите, пожалуйста, видео детали: ${product.name} (${product.sku}).`
-          )}`}
+          href={waLink(`Пришлите, пожалуйста, видео детали: ${product.name} (${product.sku}).`)}
           target="_blank"
           rel="noopener noreferrer"
           className="mt-2 inline-flex items-center justify-center gap-1.5 text-xs font-medium text-graphite-500 hover:text-graphite-900"

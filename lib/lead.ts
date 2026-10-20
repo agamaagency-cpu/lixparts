@@ -7,7 +7,7 @@
  *  - маска телефона +7 (___) ___-__-__.
  */
 
-import { contacts } from "@/lib/data";
+import { waLink } from "@/lib/data";
 
 /* ---------------- метки рекламы ---------------- */
 
@@ -144,9 +144,9 @@ export async function submitLead({ source, fields, photos = [] }: LeadPayload): 
 
 /** Ссылка на WhatsApp с текстом заявки — запасной путь, если отправка не прошла. */
 export function whatsappFallback(source: string, fields: Record<string, string | undefined>, labels: Record<string, string>) {
-  const lines = [`Здравствуйте! Заявка с сайта (${source}):`];
+  const lines = [`Оставляю заявку (${source}):`];
   for (const [k, v] of Object.entries(fields)) if (v && labels[k]) lines.push(`${labels[k]}: ${v}`);
-  return `${contacts.whatsappHref}?text=${encodeURIComponent(lines.join("\n"))}`;
+  return waLink(lines.join("\n"));
 }
 
 /* ---------------- страница «Спасибо» ---------------- */

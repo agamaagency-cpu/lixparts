@@ -10,6 +10,7 @@ import {
   models,
   modelCoverPhoto,
   productHref,
+  waLink,
 } from "@/lib/data";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import Banner from "@/components/Banner";
@@ -83,7 +84,7 @@ export default function ModelPage({ params }: { params: { model: string } }) {
                   Смотреть все детали
                 </Button>
                 <a
-                  href={contacts.whatsappHref}
+                  href={waLink(`Нужна запчасть для ${model.name}, помогите с подбором.`)}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 rounded-full bg-white px-6 py-3 text-sm font-medium text-graphite-900 ring-1 ring-inset ring-graphite-300 hover:bg-graphite-50"
