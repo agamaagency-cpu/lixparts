@@ -41,3 +41,4 @@ Claude outputs/
 Договоры/
 rs_photos.py
 *.command
+.wrangler/
