@@ -5,6 +5,8 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import WhatsAppButton from "@/components/WhatsAppButton";
 import StoreProvider from "@/components/StoreProvider";
+import LeadModalProvider from "@/components/LeadModal";
+import Analytics, { GTM_ID } from "@/components/Analytics";
 import { SITE_URL } from "@/lib/site";
 
 const inter = Inter({
@@ -49,11 +51,24 @@ export default function RootLayout({
   return (
     <html lang="ru" className={inter.variable}>
       <body className="min-h-screen bg-white">
+        {GTM_ID && (
+          <noscript>
+            <iframe
+              src={`https://www.googletagmanager.com/ns.html?id=${GTM_ID}`}
+              height="0"
+              width="0"
+              style={{ display: "none", visibility: "hidden" }}
+            />
+          </noscript>
+        )}
+        <Analytics />
         <StoreProvider>
-          <Header />
-          <main>{children}</main>
-          <Footer />
-          <WhatsAppButton />
+          <LeadModalProvider>
+            <Header />
+            <main>{children}</main>
+            <Footer />
+            <WhatsAppButton />
+          </LeadModalProvider>
         </StoreProvider>
       </body>
     </html>

@@ -1,8 +1,10 @@
 "use client";
 
 import { useState } from "react";
-import { contacts } from "@/lib/data";
-import { CheckIcon } from "./Icons";
+import { useRouter } from "next/navigation";
+import { formatPhone, isPhoneComplete, markLeadSent, submitLead, whatsappFallback } from "@/lib/lead";
+import PhotoPicker from "./PhotoPicker";
+import { WhatsAppGlyph } from "./Icons";
 
 export type FieldKey =
   | "name"
@@ -34,56 +36,51 @@ export default function LeadForm({
   submitLabel = "Отправить заявку",
   compact = false,
   source = "Форма заявки",
+  photos: withPhotos = false,
+  photoHint,
 }: {
   fields?: FieldKey[];
   title?: string;
   submitLabel?: string;
   compact?: boolean;
   source?: string;
+  /** Показать прикрепление фото */
+  photos?: boolean;
+  photoHint?: string;
 }) {
+  const router = useRouter();
   const [values, setValues] = useState<Record<string, string>>({});
-  const [sent, setSent] = useState(false);
+  const [photos, setPhotos] = useState<File[]>([]);
+  const [hp, setHp] = useState("");
+  const [phoneError, setPhoneError] = useState(false);
+  const [state, setState] = useState<"idle" | "sending" | "error">("idle");
 
   const update = (k: string, v: string) =>
     setValues((prev) => ({ ...prev, [k]: v }));
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    // Демо: собираем данные в сообщение WhatsApp. Легко заменить на реальный API-эндпоинт.
-    const lines = [`Новая заявка (${source}):`];
-    for (const f of fields) {
-      if (values[f]) lines.push(`${fieldMeta[f].label}: ${values[f]}`);
-    }
-    const url = `${contacts.whatsappHref}?text=${encodeURIComponent(lines.join("\n"))}`;
-    window.open(url, "_blank");
-    setSent(true);
-  };
+  const labels = Object.fromEntries(Object.entries(fieldMeta).map(([k, m]) => [k, m.label]));
 
-  if (sent) {
-    return (
-      <div className="flex flex-col items-center justify-center rounded-2xl border border-emerald-200 bg-emerald-50 p-8 text-center">
-        <span className="mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-emerald-700 text-white">
-          <CheckIcon width={24} height={24} />
-        </span>
-        <h3 className="text-lg font-semibold text-graphite-900">Заявка отправлена</h3>
-        <p className="mt-2 max-w-sm text-sm text-graphite-500">
-          Мы открыли чат в WhatsApp — отправьте сообщение, и менеджер подтвердит
-          наличие и стоимость. Обычно отвечаем в течение рабочего дня.
-        </p>
-        <button
-          onClick={() => setSent(false)}
-          className="mt-4 text-sm font-medium text-graphite-700 underline"
-        >
-          Отправить ещё одну
-        </button>
-      </div>
-    );
-  }
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!isPhoneComplete(values.phone || "")) {
+      setPhoneError(true);
+      return;
+    }
+    setState("sending");
+    const res = await submitLead({ source, fields: { ...values, website: hp }, photos });
+    if (res.ok) {
+      markLeadSent(source, values.name);
+      router.push("/spasibo");
+    } else {
+      setState("error");
+    }
+  };
 
   return (
     <form
       onSubmit={handleSubmit}
-      className={`rounded-2xl bg-white ${
+      noValidate
+      className={`relative rounded-2xl bg-white ${
         compact ? "p-5 ring-1 ring-inset ring-graphite-100" : "border border-graphite-200 p-6 sm:p-8"
       }`}
     >
@@ -105,27 +102,72 @@ export default function LeadForm({
                   placeholder={meta.placeholder}
                   value={values[f] || ""}
                   onChange={(e) => update(f, e.target.value)}
-                  className="w-full resize-none rounded-xl border border-graphite-200 bg-graphite-50/50 px-4 py-3 text-sm text-graphite-900 outline-none transition-colors placeholder:text-graphite-400 focus:border-graphite-400 focus:bg-white"
+                  className="w-full resize-none rounded-xl border border-graphite-200 bg-graphite-50/50 px-4 py-3 text-[16px] sm:text-sm text-graphite-900 outline-none transition-colors placeholder:text-graphite-400 focus:border-graphite-400 focus:bg-white"
                 />
               ) : (
-                <input
-                  type={meta.type || "text"}
-                  required={f === "phone" || f === "name"}
-                  placeholder={meta.placeholder}
-                  value={values[f] || ""}
-                  onChange={(e) => update(f, e.target.value)}
-                  className="w-full rounded-xl border border-graphite-200 bg-graphite-50/50 px-4 py-3 text-sm text-graphite-900 outline-none transition-colors placeholder:text-graphite-400 focus:border-graphite-400 focus:bg-white"
-                />
+                <>
+                  <input
+                    type={meta.type || "text"}
+                    inputMode={f === "phone" ? "tel" : undefined}
+                    autoComplete={f === "phone" ? "tel" : f === "name" ? "name" : undefined}
+                    placeholder={meta.placeholder}
+                    value={values[f] || ""}
+                    onFocus={() => f === "phone" && !values.phone && update("phone", "+7")}
+                    onChange={(e) => {
+                      if (f === "phone") {
+                        update(f, formatPhone(e.target.value));
+                        setPhoneError(false);
+                      } else if (f === "vin") {
+                        update(f, e.target.value.replace(/[^a-z0-9]/gi, "").toUpperCase().slice(0, 17));
+                      } else update(f, e.target.value);
+                    }}
+                    className={`w-full rounded-xl border bg-graphite-50/50 px-4 py-3 text-[16px] text-graphite-900 outline-none transition-colors placeholder:text-graphite-400 focus:border-graphite-400 focus:bg-white sm:text-sm ${
+                      f === "phone" && phoneError ? "border-red-400" : "border-graphite-200"
+                    }`}
+                  />
+                  {f === "phone" && phoneError && (
+                    <p className="mt-1 text-xs text-red-500">Введите номер полностью, 10 цифр после +7</p>
+                  )}
+                </>
               )}
             </div>
           );
         })}
       </div>
+      {withPhotos && (
+        <div className="mt-4">
+          <PhotoPicker photos={photos} onChange={setPhotos} hint={photoHint} />
+        </div>
+      )}
+      <input
+        type="text"
+        name="website"
+        tabIndex={-1}
+        autoComplete="off"
+        aria-hidden="true"
+        className="absolute -left-[9999px] h-0 w-0 opacity-0"
+        value={hp}
+        onChange={(e) => setHp(e.target.value)}
+      />
+      {state === "error" && (
+        <div className="mt-4 rounded-xl bg-red-50 p-3 text-sm text-red-700">
+          Не получилось отправить. Попробуйте ещё раз или напишите в WhatsApp, данные уже подставлены.
+          <a
+            href={whatsappFallback(source, values, labels)}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mt-2 flex w-fit items-center gap-2 rounded-full bg-emerald-700 px-4 py-2 font-medium text-white"
+          >
+            <WhatsAppGlyph width={16} height={16} /> Отправить в WhatsApp
+          </a>
+        </div>
+      )}
       <button
         type="submit"
-        className="mt-5 w-full rounded-full bg-graphite-900 px-6 py-3.5 text-sm font-medium text-white transition-colors hover:bg-graphite-800"
+        disabled={state === "sending"}
+        className="mt-5 w-full rounded-full bg-graphite-900 px-6 py-3.5 text-sm font-medium text-white transition-colors hover:bg-graphite-800 disabled:opacity-60"
       >
-        {submitLabel}
+        {state === "sending" ? "Отправляем…" : submitLabel}
       </button>
       <p className="mt-3 text-center text-xs text-graphite-400">
         Нажимая кнопку, вы соглашаетесь с{" "}

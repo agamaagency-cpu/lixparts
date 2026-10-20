@@ -77,6 +77,7 @@ export default function ContactsPage() {
           title="Оставить заявку"
           submitLabel="Отправить"
           source="Форма на странице контактов"
+          photos
         />
       </div>
     </div>

@@ -339,6 +339,8 @@ export default function HomePage() {
                 fields={["model", "color", "phone"]}
                 submitLabel="Подобрать по цвету"
                 source="Проверка цвета"
+                photos
+                photoHint="Фото машины при дневном свете — подберём оттенок"
                 compact
               />
             </div>
@@ -374,6 +376,7 @@ export default function HomePage() {
               title="Оставить заявку на подбор"
               submitLabel="Оставить заявку"
               source="Заявка на подбор детали"
+              photos
             />
           </div>
         </div>

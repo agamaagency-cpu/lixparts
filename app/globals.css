@@ -70,3 +70,16 @@ body {
     animation: fade-up 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
   }
 }
+
+/* Попап заявки: фон проявляется, окно выезжает снизу (на телефоне — как шторка) */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes sheetUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  [class*="animate-[sheetUp"], [class*="animate-[fadeIn"] { animation: none !important; }
+}

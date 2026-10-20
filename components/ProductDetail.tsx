@@ -5,6 +5,7 @@ import { contacts, getModel } from "@/lib/data";
 import type { Product } from "@/lib/types";
 import PartImage from "./PartImage";
 import { useStore } from "./StoreProvider";
+import { useLeadModal } from "./LeadModal";
 import { formatPrice, StatusBadge } from "./ui";
 import {
   CheckIcon,
@@ -18,6 +19,7 @@ import {
 export default function ProductDetail({ product }: { product: Product }) {
   const model = getModel(product.model);
   const { isFavorite, toggleFavorite, isComparing, toggleCompare } = useStore();
+  const { openLead } = useLeadModal();
   const fav = isFavorite(product.id);
   const cmp = isComparing(product.id);
   const [activeImg, setActiveImg] = useState(0);
@@ -176,14 +178,22 @@ export default function ProductDetail({ product }: { product: Product }) {
 
         {/* Кнопки */}
         <div className="mt-7 flex flex-col gap-3">
-          <a
-            href={`${contacts.whatsappHref}?text=${waText}`}
-            target="_blank"
-            rel="noopener noreferrer"
+          <button
+            type="button"
+            onClick={() =>
+              openLead({
+                source: "Карточка товара",
+                part: product.name,
+                model: model?.name,
+                sku: product.sku,
+                price: product.price !== null ? formatPrice(product.price) : undefined,
+                image: photos[0],
+              })
+            }
             className="flex w-full items-center justify-center gap-2 rounded-full bg-graphite-900 px-6 py-3.5 text-sm font-medium text-white transition-colors hover:bg-graphite-800"
           >
             Купить / Оставить заявку
-          </a>
+          </button>
           <div className="grid grid-cols-2 gap-3">
             <a
               href={`${contacts.whatsappHref}?text=${waText}`}
