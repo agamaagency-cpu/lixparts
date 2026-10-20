@@ -100,6 +100,19 @@ export default function Footer() {
             не является официальным дилером. Продаются оригинальные б/у детали.
           </p>
         </div>
+        {/* Подпись агентства. UTM-метки показывают в аналитике agama.kz, сколько визитов и заявок пришло с сайтов клиентов:
+            utm_source = домен клиента, utm_campaign = client_footer. */}
+        <p className="mt-4 text-xs text-graphite-400">
+          Сайт разработан и продвигается агентством{" "}
+          <a
+            href="https://agama.kz/?utm_source=rsautoparts.kz&utm_medium=referral&utm_campaign=client_footer&utm_content=footer_credit"
+            target="_blank"
+            rel="noopener"
+            className="font-medium text-graphite-600 underline-offset-4 hover:text-graphite-900 hover:underline"
+          >
+            Agama
+          </a>
+        </p>
       </div>
     </footer>
   );
