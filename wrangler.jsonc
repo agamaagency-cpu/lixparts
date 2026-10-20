@@ -6,6 +6,9 @@
   // Серверный код один: worker/index.ts принимает заявки POST /api/lead (Telegram + почта).
   // run_worker_first ограничен /api/*, поэтому все страницы по-прежнему отдаются прямо из ассетов.
   "main": "worker/index.ts",
+  // Переменные (TG_CHAT_ID, LEAD_EMAIL_TO…) задаются в панели Cloudflare. Без keep_vars
+  // каждый деплой из GitHub стирал бы их, потому что в этом файле их нет. Секреты сохраняются в любом случае.
+  "keep_vars": true,
   "assets": {
     "directory": "./out",
     "binding": "ASSETS",
