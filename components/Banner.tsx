@@ -33,6 +33,11 @@ export default function Banner({
           className="absolute inset-0 h-full w-full object-cover"
         />
       </picture>
+      {b?.src && b.credit && (
+        <span className="pointer-events-none absolute bottom-1.5 right-2 rounded bg-black/35 px-1.5 py-0.5 text-[10px] leading-none text-white/85">
+          {b.credit}
+        </span>
+      )}
     </div>
   );
 }
