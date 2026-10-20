@@ -7,13 +7,14 @@ import { captureTracking } from "@/lib/lead";
 /**
  * Аналитика и метки рекламы.
  *
- * GTM подключается, только если при сборке задана переменная NEXT_PUBLIC_GTM_ID (GTM-XXXXXXX),
- * в Cloudflare: Settings → Build → Variables. Все теги (GA4, Google Ads, пиксели) настраиваются уже в GTM.
+ * GTM: по умолчанию контейнер RS Auto Parts GTM-MMPD9DTM (GA4 G-DW38Z2GN0L настроен внутри GTM).
+ * Переопределить можно переменной NEXT_PUBLIC_GTM_ID при сборке (Cloudflare: Settings → Build → Variables).
+ * Все теги (GA4, Google Ads, пиксели) настраиваются уже в GTM.
  *
  * Конверсия: на /spasibo в dataLayer уходит событие "generate_lead" — один раз на реально отправленную
  * заявку (прямой заход или обновление страницы его не вызывают). Триггер в GTM: Custom Event = generate_lead.
  */
-export const GTM_ID = process.env.NEXT_PUBLIC_GTM_ID || "";
+export const GTM_ID = process.env.NEXT_PUBLIC_GTM_ID || "GTM-MMPD9DTM";
 
 export default function Analytics() {
   useEffect(() => {
