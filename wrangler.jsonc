@@ -9,6 +9,10 @@
   // Переменные (TG_CHAT_ID, LEAD_EMAIL_TO…) задаются в панели Cloudflare. Без keep_vars
   // каждый деплой из GitHub стирал бы их, потому что в этом файле их нет. Секреты сохраняются в любом случае.
   "keep_vars": true,
+  // Не секретные настройки заявок. Токен бота — секрет TG_BOT_TOKEN, задаётся только в панели Cloudflare.
+  "vars": {
+    "TG_CHAT_ID": "-5391800382"
+  },
   "assets": {
     "directory": "./out",
     "binding": "ASSETS",
